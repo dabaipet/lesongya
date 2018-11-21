@@ -10,7 +10,7 @@ namespace app\api\controller;
 
 use think\facade\Cache;
 use think\facade\Session;
-use app\api\model\User;
+use app\common\model\User;
 use think\facade\Config;
 
 class Reglogin extends Apibase

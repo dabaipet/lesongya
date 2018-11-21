@@ -1,5 +1,5 @@
 <?php
-namespace app\api\model;
+namespace app\common\model;
 /**
  * 派送人员 模型.
  * User: whp

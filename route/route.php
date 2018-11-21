@@ -16,3 +16,4 @@ Route::pattern([
 
 Route::domain('api', 'api');
 Route::domain('manage', 'admin');
+Route::miss('api/Error/index'); //404页面

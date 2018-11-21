@@ -6,7 +6,7 @@
  * Time: 19:33
  */
 
-namespace app\api\model;
+namespace app\common\model;
 
 use think\Model;
 

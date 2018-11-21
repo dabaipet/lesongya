@@ -19,7 +19,7 @@ class Index extends Apibase
      * */
     public function index()
     {
-        echo "111";
+        echo "11122";
     }
     public function read(){
        $lng =   116.40387397;

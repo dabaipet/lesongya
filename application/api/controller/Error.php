@@ -5,13 +5,11 @@
 
 namespace app\api\controller;
 
-use think\facade\Request;
-
-class Error
+class Error extends Apibase
 {
-    public function index(Request $request)
+    public function index()
     {
 
-        return ['code' => '202','msg' => showReturnCodeMsg('2003')];
+        echo "40422";
     }
 }

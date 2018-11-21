@@ -6,7 +6,7 @@
  * Time: 21:14
  */
 
-namespace app\api\model;
+namespace app\common\model;
 
 use think\Model;
 class Bankcard extends Model
