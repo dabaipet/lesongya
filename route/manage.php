@@ -19,4 +19,7 @@ Route::domain('manage', function () {
     Route::rule('rider-set', 'rider/set');
     Route::rule('rider-coupon', 'rider/coupon');
     Route::rule('rider-payment', 'rider/payment');
+    //物业
+    Route::rule('property', 'property/index');
+
 });
