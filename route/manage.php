@@ -14,4 +14,9 @@ use think\facade\Route;
 Route::domain('manage', function () {
     Route::rule('/', 'index');
     Route::rule('read', 'index/read');
+    //骑手
+    Route::rule('rider', 'rider/index');
+    Route::rule('rider-set', 'rider/set');
+    Route::rule('rider-coupon', 'rider/coupon');
+    Route::rule('rider-payment', 'rider/payment');
 });

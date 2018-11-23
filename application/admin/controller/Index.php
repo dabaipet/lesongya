@@ -10,7 +10,7 @@ namespace app\admin\controller;
 class Index extends Adminbase
 {
     public function index(){
-        echo "213123131";
+
         $this->assign('name', 'thinkphp');
         return $this->fetch();
     }
