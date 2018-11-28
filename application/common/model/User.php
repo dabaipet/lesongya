@@ -25,15 +25,4 @@ class User extends Model
             }
         });
     }*/
-    //插入一条数据
-    public function insertUser($phone,$token){
-        $user           = new User;
-        $user->phone     = $phone;
-        $user->token     = $token;
-        $user->expiry_time     = Config::get('sys_config.expiry_time');
-        if ($user->save()){
-            return  $user->uid;
-        }
-    }
-
 }

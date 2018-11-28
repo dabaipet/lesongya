@@ -13,7 +13,7 @@ use think\Model;
 
 class Gps extends Model
 {
-protected  $table=  'sf_maps';
+protected  $table=  'ls_maps';
     /* *参数说明：
      * @param   $lng 经度
      * @param   $lat 纬度
@@ -34,7 +34,7 @@ protected  $table=  'sf_maps';
     //接收起点经纬度
     // $longitude,
     // $latitude
-    public function Distance($longitude, $latitude)
+    public function distance($longitude, $latitude)
     {
         $array = $this->returnSquarePoint($longitude, $latitude);
 

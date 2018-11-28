@@ -15,5 +15,13 @@ class Property extends Adminbase
         $this->assign('name', 'thinkphp');
         return $this->fetch();
     }
+    public function postal(){
+        $this->assign('name', 'thinkphp');
+        return $this->fetch();
+    }
+    public function set(){
+        $this->assign('name', 'thinkphp');
+        return $this->fetch();
+    }
 
 }

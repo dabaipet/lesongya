@@ -54,16 +54,16 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v5.1.19",
+            "version": "v5.1.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "3a0fea90ed2a99b181ce503090e08be1171ed091"
+                "reference": "f1d8ee3a91e8f504507edb5dcc49c50c47b4500f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/3a0fea90ed2a99b181ce503090e08be1171ed091",
-                "reference": "3a0fea90ed2a99b181ce503090e08be1171ed091",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/f1d8ee3a91e8f504507edb5dcc49c50c47b4500f",
+                "reference": "f1d8ee3a91e8f504507edb5dcc49c50c47b4500f",
                 "shasum": ""
             },
             "require": {
@@ -101,7 +101,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2018-07-13T14:10:28+00:00"
+            "time": "2018-11-11T01:17:33+00:00"
         },
         {
             "name": "topthink/think-captcha",
@@ -300,20 +300,20 @@
         },
         {
             "name": "topthink/think-mongo",
-            "version": "v2.0.11",
+            "version": "v2.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-mongo.git",
-                "reference": "70e19a098265f46b39c4ad4f208195d4348fd0c6"
+                "reference": "ec73c9a1f3d1a19008aab8fefe8104bdabe4c8c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-mongo/zipball/70e19a098265f46b39c4ad4f208195d4348fd0c6",
-                "reference": "70e19a098265f46b39c4ad4f208195d4348fd0c6",
+                "url": "https://api.github.com/repos/top-think/think-mongo/zipball/ec73c9a1f3d1a19008aab8fefe8104bdabe4c8c5",
+                "reference": "ec73c9a1f3d1a19008aab8fefe8104bdabe4c8c5",
                 "shasum": ""
             },
             "require": {
-                "topthink/framework": "~5.1.7"
+                "topthink/framework": "~5.1.20"
             },
             "type": "library",
             "autoload": {
@@ -333,32 +333,34 @@
                 }
             ],
             "description": "mongodb driver for thinkphp5",
-            "time": "2018-06-03T01:53:48+00:00"
+            "time": "2018-07-27T15:29:54+00:00"
         },
         {
             "name": "topthink/think-worker",
-            "version": "v2.0.5",
+            "version": "v2.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-worker.git",
-                "reference": "eff93014ccf612a9995580929e1a852e2d93abe9"
+                "reference": "bee4408caf10a48df6a91e17f5b64f72a25bf1f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-worker/zipball/eff93014ccf612a9995580929e1a852e2d93abe9",
-                "reference": "eff93014ccf612a9995580929e1a852e2d93abe9",
+                "url": "https://api.github.com/repos/top-think/think-worker/zipball/bee4408caf10a48df6a91e17f5b64f72a25bf1f8",
+                "reference": "bee4408caf10a48df6a91e17f5b64f72a25bf1f8",
                 "shasum": ""
             },
             "require": {
-                "topthink/framework": "5.1.*",
+                "topthink/framework": "^5.1.18",
                 "topthink/think-installer": "^2.0",
+                "workerman/gateway-worker": "^3.0.0",
                 "workerman/workerman": "^3.3.0"
             },
             "type": "think-extend",
             "extra": {
                 "think-config": {
-                    "worker": "src/config.php",
-                    "worker_server": "src/worker_config.php"
+                    "worker": "src/config/worker.php",
+                    "worker_server": "src/config/server.php",
+                    "gateway_worker": "src/config/gateway.php"
                 }
             },
             "autoload": {
@@ -380,20 +382,54 @@
                 }
             ],
             "description": "workerman extend for thinkphp5.1",
-            "time": "2018-07-09T07:19:31+00:00"
+            "time": "2018-09-14T05:56:22+00:00"
         },
         {
-            "name": "workerman/workerman",
-            "version": "v3.5.13",
+            "name": "workerman/gateway-worker",
+            "version": "v3.0.12",
             "source": {
                 "type": "git",
-                "url": "https://github.com/walkor/Workerman.git",
-                "reference": "cf2538169af989fbba4d55be1bfc8c8d80fa71e9"
+                "url": "https://github.com/walkor/GatewayWorker.git",
+                "reference": "c206ec41e21f092055d1ddd3ee296895fc004cb5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/Workerman/zipball/cf2538169af989fbba4d55be1bfc8c8d80fa71e9",
-                "reference": "cf2538169af989fbba4d55be1bfc8c8d80fa71e9",
+                "url": "https://api.github.com/repos/walkor/GatewayWorker/zipball/c206ec41e21f092055d1ddd3ee296895fc004cb5",
+                "reference": "c206ec41e21f092055d1ddd3ee296895fc004cb5",
+                "shasum": ""
+            },
+            "require": {
+                "workerman/workerman": ">=3.1.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GatewayWorker\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "homepage": "http://www.workerman.net",
+            "keywords": [
+                "communication",
+                "distributed"
+            ],
+            "time": "2018-08-21T06:17:30+00:00"
+        },
+        {
+            "name": "workerman/workerman",
+            "version": "v3.5.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/walkor/Workerman.git",
+                "reference": "b374bb86f9dae74bf373e924173a891eb6435c7a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/walkor/Workerman/zipball/b374bb86f9dae74bf373e924173a891eb6435c7a",
+                "reference": "b374bb86f9dae74bf373e924173a891eb6435c7a",
                 "shasum": ""
             },
             "require": {
@@ -426,7 +462,7 @@
                 "asynchronous",
                 "event-loop"
             ],
-            "time": "2018-07-16T02:11:10+00:00"
+            "time": "2018-11-18T06:16:58+00:00"
         }
     ],
     "packages-dev": [],

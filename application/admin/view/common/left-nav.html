@@ -14,7 +14,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="/">
                 <span class="menu-title">仪表盘</span>
                 <i class="mdi mdi-home menu-icon"></i>
             </a>
@@ -37,30 +37,30 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                <span class="menu-title">物业会员</span>
+                <span class="menu-title">物业用户</span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-domain menu-icon"></i>
             </a>
             <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="{:url('property/index')}">物业列表</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="">提现管理</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="">物业设置</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('property/postal')}">提现管理</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('property/set')}">物业设置</a></li>
                 </ul>
             </div>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#geren" aria-expanded="false" aria-controls="geren">
-                <span class="menu-title">个人会员</span>
+                <span class="menu-title">个人用户</span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-account-multiple-outline menu-icon"></i>
             </a>
             <div class="collapse" id="geren">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="">会员列表</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="">提现管理</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="">会员设置</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="">押金管理</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('user/index')}">会员列表</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('user/postal')}">提现管理</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('user/set')}">会员设置</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('user/deposit')}">押金管理</a></li>
                 </ul>
             </div>
         </li>
@@ -72,22 +72,22 @@
             </a>
             <div class="collapse" id="caiwu">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href=""> 财务统计</a></li>
-                    <li class="nav-item"> <a class="nav-link" href=""> 提现统计</a></li>
-                    <li class="nav-item"> <a class="nav-link" href=""> 押金统计</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('finance/index')}"> 财务统计</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('finance/postal')}"> 提现统计</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('finance/deposit')}"> 押金统计</a></li>
                 </ul>
             </div>
         </li><li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#shuju" aria-expanded="false" aria-controls="shuju">
-            <span class="menu-title">数据模型</span>
+            <span class="menu-title">数据信息</span>
             <i class="menu-arrow"></i>
             <i class="mdi mdi-database menu-icon"></i>
         </a>
         <div class="collapse" id="shuju">
             <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="">物业数据</a></li>
-                <li class="nav-item"> <a class="nav-link" href="">骑手数据</a></li>
-                <li class="nav-item"> <a class="nav-link" href="">会员数据</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{:url('information/property')}">物业数据</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{:url('information/rider')}">骑手数据</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{:url('information/user')}">会员数据</a></li>
             </ul>
         </div>
     </li>
@@ -99,11 +99,11 @@
             </a>
             <div class="collapse" id="styem">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="">系统设置</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="">权限管理</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="">定时任务</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="">短信设置</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="">消息发送</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('system/set')}">系统设置</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('system/authority')}">权限管理</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('system/timing')}">定时任务</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('system/sms')}">短信设置</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{:url('system/msgsend')}">消息发送</a></li>
                 </ul>
             </div>
         </li>

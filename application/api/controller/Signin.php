@@ -10,10 +10,11 @@ namespace app\api\controller;
 
 use think\facade\Cache;
 use think\facade\Session;
-use app\common\model\User;
 use think\facade\Config;
+use app\common\model\User;
+use app\common\model\Gps;
 
-class Reglogin extends Apibase
+class Signin extends Apibase
 {
     /*
      * 注册账号：手机号码 验证码
@@ -59,7 +60,7 @@ class Reglogin extends Apibase
         return json(['code' => '200', 'uid' => $userAtr['uid'], 'token' => $userAtr['token'], 'turl' => '/index', 'msg' => showReturnCode('5000')]);
 
         // 读写分离模式 读redis 写MySQL
-        if (Session::has("$phone") == false){
+        if (Session::has("$phone")){
             $user = new User();
             $userAtr = $user->where('phone',"$phone")->field('create_time,update_time,cishu','turn')->find();
             if (empty($userAtr)) {
@@ -88,4 +89,8 @@ class Reglogin extends Apibase
         return json(['code' => '200', 'uid' => $userAtr->uid, 'token' => $userAtr->token, 'turl' => '/index', 'msg' => showReturnCode('5000')]);
     }
 
+    public function gps(){
+    $PS = new Gps();
+        $PS->distance();
+    }
 }
