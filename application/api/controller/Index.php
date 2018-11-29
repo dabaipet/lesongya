@@ -6,7 +6,7 @@
  * */
 namespace app\api\controller;
 
-use app\common\model\Gps;
+use app\common\model\PropertyGps;
 use think\facade\Session;
 use think\facade\Cache;
 use app\common\model\User;
@@ -27,7 +27,7 @@ class Index extends Apibase
             return json(['code' => '202', 'msg' => $result]);
         }
         //计算周围可以存放地点
-        $gpsAround = new Gps();
+        $gpsAround = new PropertyGps();
         $aroundAddress = $gpsAround->getDistance("$long","$lat");
         //var_dump($aroundAddress);
         return json(['ss'=>$aroundAddress]);

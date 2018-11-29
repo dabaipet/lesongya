@@ -1,7 +1,7 @@
 <?php
 /**
- * 饭巢GPS位置.
- * User: mwhp
+ * 物业存放地址信息GPS.
+ * User: whp
  * Date: 2018/10/29
  * Time: 16:43
  */
@@ -11,9 +11,9 @@ namespace app\common\model;
 
 use think\Model;
 
-class Gps extends Model
+class PropertyGps extends Model
 {
-protected  $table=  'ls_maps';
+protected  $table=  'property_gps';
     /* *参数说明：
      * @param   $lng 经度
      * @param   $lat 纬度
