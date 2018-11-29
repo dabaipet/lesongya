@@ -14,15 +14,4 @@ class User extends Model
     protected $autoWriteTimestamp = true;//开启自动时间戳
     protected $pk = 'uid';
 
-    /*
-     * 前置操作
-     * */
-    /*public static function init()
-    {
-        self::event('before_insert', function ($user) {
-            if (!empty($user->type)) {
-                return false;
-            }
-        });
-    }*/
 }

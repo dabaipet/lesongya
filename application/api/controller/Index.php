@@ -6,31 +6,31 @@
  * */
 namespace app\api\controller;
 
-use app\api\model\Gps;
+use app\common\model\Gps;
 use think\facade\Session;
 use think\facade\Cache;
-use app\api\model\User;
+use app\common\model\User;
 class Index extends Apibase
 {
     /*
-     * @param   decimal $lng
-     * @param   decimal $lat
-     * @return  用户信息
+     * 当前定位
+     * @param   long 经度
+     * @param   lat 纬度
      * */
-    public function index()
+    public function location()
     {
-        echo "11122";
+        //获取当前经纬度
+        $long = $this->request->param('long');
+        $lat = $this->request->param('lat');
+        $result = $this->validate(['long' => $long, 'lat' => $lat], 'app\api\validate\Gps');
+        if (true !== $result) {
+            return json(['code' => '202', 'msg' => $result]);
+        }
+        //计算周围可以存放地点
+        $gpsAround = new Gps();
+        $aroundAddress = $gpsAround->getDistance("$long","$lat");
+        //var_dump($aroundAddress);
+        return json(['ss'=>$aroundAddress]);
     }
-    public function read(){
-       $lng =   116.40387397;
-       $lat =   39.91488908;
-       $gps =   new Gps();
-
-
-
-    }
-
-
-
 
 }

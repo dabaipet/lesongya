@@ -89,8 +89,4 @@ class Signin extends Apibase
         return json(['code' => '200', 'uid' => $userAtr->uid, 'token' => $userAtr->token, 'turl' => '/index', 'msg' => showReturnCode('5000')]);
     }
 
-    public function gps(){
-    $PS = new Gps();
-        $PS->distance();
-    }
 }

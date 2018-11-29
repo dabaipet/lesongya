@@ -19,40 +19,41 @@ protected  $table=  'ls_maps';
      * @param   $lat 纬度
      * @param   $distance 周边半径 默认是500米（0.5Km）
      * */
-    public function returnSquarePoint($lng, $lat, $distance = 3)
+    public function returnSquarePoint($long, $lat, $distance = 3)
     {
-        $dlng = 2 * asin(sin($distance / (2 * 6371)) / cos(deg2rad($lat)));
-        $dlng = rad2deg($dlng);
+        $dlong = 2 * asin(sin($distance / (2 * 6371)) / cos(deg2rad($lat)));
+        $dlong = rad2deg($dlong);
         $dlat = $distance / 6371;
         $dlat = rad2deg($dlat);
         return array(
-            'left-top' => array('lat' => $lat + $dlat, 'lng' => $lng - $dlng),
-            'right-top' => array('lat' => $lat + $dlat, 'lng' => $lng + $dlng),
-            'left-bottom' => array('lat' => $lat - $dlat, 'lng' => $lng - $dlng),
-            'right-bottom' => array('lat' => $lat - $dlat, 'lng' => $lng + $dlng));
+            'left-top' => array('lat' => $lat + $dlat, 'long' => $long - $dlong),
+            'right-top' => array('lat' => $lat + $dlat, 'long' => $long + $dlong),
+            'left-bottom' => array('lat' => $lat - $dlat, 'long' => $long - $dlong),
+            'right-bottom' => array('lat' => $lat - $dlat, 'long' => $long + $dlong));
     }
     //接收起点经纬度
     // $longitude,
     // $latitude
-    public function distance($longitude, $latitude)
+    public function getDistance($longitude, $latitude)
     {
         $array = $this->returnSquarePoint($longitude, $latitude);
-
-        $map = array(
-            'lat' => array(
-                array('egt', $array['right-bottom']['lat']),
-                array('elt', $array['left-top']['lat']), 'and'),
-            'lng' => array(
-                array('egt', $array['left-top']['lng']),
-                array('elt', $array['right-bottom']['lng']), 'and'),
-            );
-        /*echo "<pre>";
-        var_dump($map);
-        die;*/
-        $data = $this->where($map)->select();
-        $this->getLastSql();
-        //return $data;
+        return $this->where('long',['<=',$array['left-top']['long']],['>=',$array['right-bottom']['long']],'and')
+            ->where('lat',['>=',$array['right-bottom']['lat']],['<=',$array['left-top']['lat']],'and')
+            ->field('long,lat,name')
+            ->order('id', 'desc')
+            ->select();
+        /*$
+       注释代码
+       map = array(
+       'lat' => array(
+           array('>=', $array['right-bottom']['lat']),
+           array('<=', $array['left-top']['lat']), 'and'),
+       'long' => array(
+           array('<=', $array['left-top']['long']),
+           array('>=', $array['right-bottom']['long']), 'and'),
+       );
+   echo "<pre>";
+   var_dump($map);*/
     }
-
 
 }
