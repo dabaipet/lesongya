@@ -4,20 +4,22 @@
  * User: whp
  * Date: 2018/10/29
  * Time: 16:43
+ * @A
+ * @funcation   returnSquarePoint
+ * @funcation   getDistance
  */
-
 namespace app\common\model;
-
 
 use think\Model;
 
 class PropertyGps extends Model
 {
-protected  $table=  'property_gps';
-    /* *参数说明：
-     * @param   $lng 经度
+    protected  $table=  'ls_property_gps';
+
+    /* 计算当前位置范围
+     * @param   $long 经度
      * @param   $lat 纬度
-     * @param   $distance 周边半径 默认是500米（0.5Km）
+     * @param   $distance 周边半径（3Km）
      * */
     public function returnSquarePoint($long, $lat, $distance = 3)
     {
@@ -31,9 +33,12 @@ protected  $table=  'property_gps';
             'left-bottom' => array('lat' => $lat - $dlat, 'long' => $long - $dlong),
             'right-bottom' => array('lat' => $lat - $dlat, 'long' => $long + $dlong));
     }
-    //接收起点经纬度
-    // $longitude,
-    // $latitude
+    /*
+     *  骑手当前所在位置经纬度
+     * @param   $longitude  经度
+     * @param   $latitude   纬度
+     * @return  object  根据骑手经纬度返回周围存放点坐标和名称
+     * */
     public function getDistance($longitude, $latitude)
     {
         $array = $this->returnSquarePoint($longitude, $latitude);
@@ -42,18 +47,6 @@ protected  $table=  'property_gps';
             ->field('long,lat,name')
             ->order('id', 'desc')
             ->select();
-        /*$
-       注释代码
-       map = array(
-       'lat' => array(
-           array('>=', $array['right-bottom']['lat']),
-           array('<=', $array['left-top']['lat']), 'and'),
-       'long' => array(
-           array('<=', $array['left-top']['long']),
-           array('>=', $array['right-bottom']['long']), 'and'),
-       );
-   echo "<pre>";
-   var_dump($map);*/
     }
 
 }
