@@ -12,7 +12,6 @@ use think\facade\Cache;
 use think\facade\Session;
 use think\facade\Config;
 use app\common\model\User;
-use app\common\model\Gps;
 
 class Signin extends Apibase
 {
@@ -28,25 +27,18 @@ class Signin extends Apibase
             return json(['code' => '202', 'msg' => $result]);
         }
         //check code
-        if (Cache::store('redis')->get($phone) != $code) {
+        if (Session::get($phone.'sms') != $code) {
             return json(['code' => '202', 'msg' => showReturnCode('3003')]);
         }
+
         //Is mobile phone number registered
         $user = new User();
-        $userAtr = $user->where('phone',"$phone")->field('create_time,update_time,cishu','turn')->find();
-        if (empty($userAtr)) {
-            //account status
-            switch ($userAtr['status']){
-                case 2:
-                    return json(['code' => '202', 'msg' => showReturnCode('4000')]);
-                    break;
-                case 3:
-                    return json(['code' => '202', 'msg' => showReturnCode('4002')]);
-                    break;
-            }
-            echo token('apptoken', 'sha1');
-            $token = Session::get('apptoken');
-            $uid = $user->insertUser($phone, $token);
+        $userResult = $user->getRider($phone);
+        //为空添加数据
+        if (empty($userResult)) {
+            $apptoken = $this->request->token($phone.'apptoken', 'sha1');
+
+            $uid = $user->insertUser($phone, $apptoken);
             if (!empty($uid)) {
                 //write in
                 Session::set('uid', $uid);
@@ -54,39 +46,19 @@ class Signin extends Apibase
                 return json(['code' => '200', 'uid' => $uid, 'token' => $token, 'turl' => '/index', 'msg' => showReturnCode('5000')]);
             }
         }
-        //data exist
-        Session::set('uid', $userAtr['uid']);
-        Session::set('apptoken', $userAtr['uid'], Config::get('sys_config.expiry_time'));
-        return json(['code' => '200', 'uid' => $userAtr['uid'], 'token' => $userAtr['token'], 'turl' => '/index', 'msg' => showReturnCode('5000')]);
-
-        // 读写分离模式 读redis 写MySQL
-        if (Session::has("$phone")){
-            $user = new User();
-            $userAtr = $user->where('phone',"$phone")->field('create_time,update_time,cishu','turn')->find();
-            if (empty($userAtr)) {
-                //account status
-                switch ($userAtr->status){
-                    case 2:
-                        return json(['code' => '202', 'msg' => showReturnCode('4000')]);
-                        break;
-                    case 3:
-                        return json(['code' => '202', 'msg' => showReturnCode('4002')]);
-                        break;
-                }
-                $token = Session::get('apptoken');
-                $uid = $user->insertUser($phone, $token);
-                if (!empty($uid)) {
-                    //write in
-                    Session::set('uid', $uid, Config::get('sys_config.expiry_time'));
-                    Session::set('apptoken', $token, Config::get('sys_config.expiry_time'));
-                    return json(['code' => '200', 'uid' => $uid, 'token' => $token, 'turl' => '/index', 'msg' => showReturnCode('5000')]);
-                }
-            }
+        //账户状态
+        switch ($userResult['status']){
+            case 2:
+                return json(['code' => '202', 'msg' => showReturnCode('4000')]);
+                break;
+            case 3:
+                return json(['code' => '202', 'msg' => showReturnCode('4002')]);
+                break;
         }
         //data exist
-        Session::set('uid', $userAtr->uid, $userAtr->expiry_time);
-        Session::set('apptoken', $userAtr->token, $userAtr->expiry_time);
-        return json(['code' => '200', 'uid' => $userAtr->uid, 'token' => $userAtr->token, 'turl' => '/index', 'msg' => showReturnCode('5000')]);
-    }
+        Session::set('uid', $userResult['uid']);
+        Session::set('apptoken', $userResult['uid'], Config::get('sys_config.expiry_time'));
+        return json(['code' => '200', 'uid' => $userResult['uid'], 'token' => $userResult['token'], 'turl' => '/index', 'msg' => showReturnCode('5000')]);
 
+         }
 }

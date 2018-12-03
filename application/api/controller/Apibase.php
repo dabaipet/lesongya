@@ -29,7 +29,7 @@ class Apibase extends Controller
     //Check does't login
     public function isLogin(){
         if (Session::has('apptoken') == false && Session::has('apptoken') != $this->apptoken) {
-            return json(['code' => 202,'turl' => '/reglogin', 'msg' => "showReturnCode('2002')"]);
+            return json(['code' => 202,'turl' => '/signin', 'msg' => showReturnCode('2002')]);
         }
     }
 

@@ -14,4 +14,13 @@ class User extends Model
     protected $autoWriteTimestamp = true;//开启自动时间戳
     protected $pk = 'uid';
 
+    /*
+     * 查询单个骑手用户
+     * */
+    public function getRider($phone){
+        return $this->where('phone', '=', $phone)
+            ->field('uid')
+            ->find();
+    }
+
 }
