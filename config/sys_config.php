@@ -7,5 +7,5 @@
  */
 
 return [
-    'expiry_time'  =>  30,//token 过期时间
+    'expiry_time'  =>  31,//token 过期时间
 ];

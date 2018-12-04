@@ -17,8 +17,15 @@ use app\common\model\User;
 
 class Index extends Apibase
 {
+
     /*
      * 当前定位
+     * */
+    public function index(){
+
+    }
+    /*
+     * 获取当前定位周边信息
      * @param   long 经度
      * @param   lat 纬度
      * */
@@ -46,7 +53,5 @@ class Index extends Apibase
         $this->isLogin();
         $phone = $this->request->param('phone');
         $address = $this->request->param('address');
-
-
     }
 }

@@ -16,38 +16,44 @@ use app\common\model\User;
 class Signin extends Apibase
 {
     /*
+     * 前置操作
+     * */
+    protected $middleware = [
+        //'Auth' 	=> ['except' 	=> ['hello'] ],
+       // 'Hello' => ['only' 		=> ['index'] ],
+    ];
+    /*
      * 注册账号：手机号码 验证码
      * */
     public function index()
     {
+        $type = $this->request->param('type');
         $phone = $this->request->param('phone');
         $code = $this->request->param('code');
-        $result = $this->validate(['phone' => $phone, 'code' => $code], 'app\api\validate\User');
+        $result = $this->validate(['phone' => $phone, 'code' => $code,'type' => $type], 'app\api\validate\User');
         if (true !== $result) {
             return json(['code' => '202', 'msg' => $result]);
         }
-        //check code
-        if (Session::get($phone.'sms') != $code) {
+        if (Session::get($phone . 'sms') != $code) {
             return json(['code' => '202', 'msg' => showReturnCode('3003')]);
         }
-
-        //Is mobile phone number registered
         $user = new User();
         $userResult = $user->getRider($phone);
-        //为空添加数据
         if (empty($userResult)) {
-            $apptoken = $this->request->token($phone.'apptoken', 'sha1');
-
-            $uid = $user->insertUser($phone, $apptoken);
-            if (!empty($uid)) {
-                //write in
-                Session::set('uid', $uid);
-                Session::set('apptoken', $token, Config::get('sys_config.expiry_time'));
-                return json(['code' => '200', 'uid' => $uid, 'token' => $token, 'turl' => '/index', 'msg' => showReturnCode('5000')]);
-            }
+            $apptoken = $this->request->token('apptoken', 'sha1');
+            //过滤非数据表字段
+            $user->allowField(true)->save([
+                'name' => $phone,
+                'type' => $type,
+                'phone' => $phone,
+                'token' => $apptoken,
+            ]);
+            Session::set('uid', $user->uid);
+            Session::set('apptoken', $user->token);
+            return json(['code' => '200', 'uid' => $user->uid, 'token' => $user->token, 'turl' => url('/location'), 'msg' => showReturnCode('5000')]);
         }
         //账户状态
-        switch ($userResult['status']){
+        switch ($userResult->status){
             case 2:
                 return json(['code' => '202', 'msg' => showReturnCode('4000')]);
                 break;
@@ -55,10 +61,9 @@ class Signin extends Apibase
                 return json(['code' => '202', 'msg' => showReturnCode('4002')]);
                 break;
         }
-        //data exist
-        Session::set('uid', $userResult['uid']);
-        Session::set('apptoken', $userResult['uid'], Config::get('sys_config.expiry_time'));
-        return json(['code' => '200', 'uid' => $userResult['uid'], 'token' => $userResult['token'], 'turl' => '/index', 'msg' => showReturnCode('5000')]);
-
-         }
+        $user->where('uid',$userResult->uid)->setInc('inc');
+        Session::set('uid', $userResult->uid);
+        Session::set('apptoken', $userResult->token);
+        return json(['code' => '200', 'uid' => $userResult->uid, 'token' => $userResult->token, 'turl' => '/', 'msg' => showReturnCode('5000')]);
+    }
 }
