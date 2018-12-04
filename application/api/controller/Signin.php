@@ -40,16 +40,15 @@ class Signin extends Apibase
         $user = new User();
         $userResult = $user->getRider($phone);
         if (empty($userResult)) {
-            $apptoken = $this->request->token('apptoken', 'sha1');
+            $token = $this->request->token('token', 'sha1');
             //过滤非数据表字段
             $user->allowField(true)->save([
-                'name' => $phone,
                 'type' => $type,
                 'phone' => $phone,
-                'token' => $apptoken,
+                'token' => $token,
             ]);
             Session::set('uid', $user->uid);
-            Session::set('apptoken', $user->token);
+            Session::set('token', $user->token);
             return json(['code' => '200', 'uid' => $user->uid, 'token' => $user->token, 'turl' => url('/location'), 'msg' => showReturnCode('5000')]);
         }
         //账户状态
@@ -63,7 +62,7 @@ class Signin extends Apibase
         }
         $user->where('uid',$userResult->uid)->setInc('inc');
         Session::set('uid', $userResult->uid);
-        Session::set('apptoken', $userResult->token);
+        Session::set('token', $userResult->token);
         return json(['code' => '200', 'uid' => $userResult->uid, 'token' => $userResult->token, 'turl' => '/', 'msg' => showReturnCode('5000')]);
     }
 }

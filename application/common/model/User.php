@@ -32,5 +32,12 @@ class User extends Model
             ->field('uid,token,status')
             ->find();
     }
-
+    /*
+     * 骑手信息
+     * */
+    public function getRiderToken($token){
+        return $this->where('token', '=', $token)
+            ->field('uid,token')
+            ->find();
+    }
 }

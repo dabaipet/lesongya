@@ -10,16 +10,18 @@ namespace app\api\controller;
 
 
 use think\facade\Session;
-use app\api\model\User as  UserM;
+use app\common\model\User as UserM;
+use app\common\model\UserInfo;
 
 class User extends Apibase
 {
-
     /*
      * 基本信息
      * @return  头像 手机号 分数 金额 我的订单数
      * */
     public function index(){
+      $user = new UserM();
+      $userResult = $user->getRiderToken($this->token);
 
     }
     /*
@@ -28,7 +30,7 @@ class User extends Apibase
      * @return  头像  昵称  姓名  是否实名认证 手机号  性别  （微信 QQ） 是否绑定
      * */
     public function info(){
-echo "111";
+
     }
     /*
      * 物业设置存放点信息

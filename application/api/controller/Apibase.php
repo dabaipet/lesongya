@@ -15,23 +15,22 @@ class Apibase extends Controller
 {
 
     protected $appSite = '';
-    protected $apptoken =   '';//全局接受token
-    protected $uid  =   '';//全局uid
+    protected $token;//全局接受                                                                                 token
+    protected $uid;//全局uid
 
     public function __construct(App $app = null)
     {
         parent::__construct($app);
         //token uid获取
-        $this->apptoken =   $this->request->param('token');
+        $this->token =   $this->request->param('token');
         $this->uid  =   Session::get('uid');
 
     }
     //Check does't login
-    public function isLogin(){
-        if (Session::has('apptoken') == false && Session::has('apptoken') != $this->apptoken) {
-            return json(['code' => 202,'turl' => '/signin', 'msg' => showReturnCode('2002')]);
+    public function isLogin()
+    {
+        if (Session::has('token') == false && Session::has('token') != $this->token) {
+            return json(['code' => 202, 'turl' => url('/signin'), 'msg' => showReturnCode('2002')]);
         }
     }
-
-
 }
