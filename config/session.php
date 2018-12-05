@@ -24,11 +24,11 @@ return [
     // 是否自动开启 SESSION
     'auto_start'     => false,
     // redis主机
-    'host'       => '127.0.0.1',
+    'host'       => '39.105.166.239',
     // redis端口
     'port'       => 6379,
     // 密码
     'password'   => ';3eh0$=aj?.cz//8hVdgr%^$',
     // 全局缓存有效期（0为永久有效）
-    'expire'=>  0,
+    'expire'=>  2678400,
 ];

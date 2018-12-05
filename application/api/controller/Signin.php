@@ -8,10 +8,9 @@
 
 namespace app\api\controller;
 
-use think\facade\Cache;
 use think\facade\Session;
-use think\facade\Config;
 use app\common\model\User;
+use app\common\model\UserInfo;
 
 class Signin extends Apibase
 {
@@ -23,14 +22,15 @@ class Signin extends Apibase
        // 'Hello' => ['only' 		=> ['index'] ],
     ];
     /*
-     * 注册账号：手机号码 验证码
+     * 注册账号：
+     * @param   phone   手机号码
+     * @param   code    验证码
      * */
     public function index()
     {
-        $type = $this->request->param('type');
         $phone = $this->request->param('phone');
         $code = $this->request->param('code');
-        $result = $this->validate(['phone' => $phone, 'code' => $code,'type' => $type], 'app\api\validate\User');
+        $result = $this->validate(['phone' => $phone, 'code' => $code], 'app\api\validate\User.signin');
         if (true !== $result) {
             return json(['code' => '202', 'msg' => $result]);
         }
@@ -43,13 +43,12 @@ class Signin extends Apibase
             $token = $this->request->token('token', 'sha1');
             //过滤非数据表字段
             $user->allowField(true)->save([
-                'type' => $type,
                 'phone' => $phone,
                 'token' => $token,
             ]);
             Session::set('uid', $user->uid);
             Session::set('token', $user->token);
-            return json(['code' => '200', 'uid' => $user->uid, 'token' => $user->token, 'turl' => url('/location'), 'msg' => showReturnCode('5000')]);
+            return json(['code' => '200', 'uid' => $user->uid, 'token' => $user->token, 'turl' => url('/signin-choice'), 'msg' => showReturnCode('5000')]);
         }
         //账户状态
         switch ($userResult->status){
@@ -60,9 +59,31 @@ class Signin extends Apibase
                 return json(['code' => '202', 'msg' => showReturnCode('4002')]);
                 break;
         }
-        $user->where('uid',$userResult->uid)->setInc('inc');
+        $user->isUpdate(true,['uid' => $userResult->uid])->save(['inc' =>['inc',1]]);
         Session::set('uid', $userResult->uid);
         Session::set('token', $userResult->token);
-        return json(['code' => '200', 'uid' => $userResult->uid, 'token' => $userResult->token, 'turl' => '/', 'msg' => showReturnCode('5000')]);
+        return json(['code' => '200', 'uid' => $userResult->uid, 'token' => $userResult->token, 'turl' => url('/signin-choice'), 'msg' => showReturnCode('5000')]);
+    }
+    /*
+     * 用户选择身份
+     * @param   identity    身份标识 1骑手 2快递 3物业 4个人
+     * */
+    public function choice(){
+        $identity  =   $this->request->param('identity');
+        $result = $this->validate(['identity' => $identity], 'app\api\validate\User.choice');
+        if (true !== $result) {
+            return json(['code' => '202', 'msg' => $result]);
+        }
+        $UserInfo = new User();
+        $UserInfoResult = $UserInfo->allowField('identity')->save(['identity' => $identity],['uid' => $this->uid]);
+        if ($UserInfoResult == true){
+            return json(['code' => '200', 'turl' => url('/location'),'msg' => showReturnCode('1020')]);
+        }
+    }
+    /*
+     * 第三方登录(微信)
+     * */
+    public function thirdParty(){
+
     }
 }

@@ -13,13 +13,13 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '127.0.0.1',
+    'hostname'        => '39.105.166.239',
     // 数据库名
-    'database'        => 'songfan_root',
+    'database'        => 'api_lesongya_com',
     // 用户名
-    'username'        => 'root',
+    'username'        => 'api_lesongya_com',
     // 密码
-    'password'        => 'root',
+    'password'        => 'jE4pM4h7b4FN8kae',
     // 端口
     'hostport'        => '3306',
     // 连接dsn
@@ -47,7 +47,7 @@ return [
     // 数据集返回类型
     'resultset_type'  => 'array',
     // 自动写入时间戳字段
-    'auto_timestamp'  => false,
+    'auto_timestamp'  => true,
     // 时间字段取出后的默认时间格式
     'datetime_format' => 'Y-m-d H:i:s',
     // 是否需要进行SQL性能分析

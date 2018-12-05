@@ -10,12 +10,13 @@ use think\Validate;
 
 class User extends Validate
 {
+    //规则
     protected $rule =   [
         'phone'  => 'require|mobile|max:11|length:11',
         'code'   => 'require|number|max:4|length:4',
-        'type'   => 'require|number|length:1',
+        'identity'   => 'require|number|length:1|in:1,2,3,4',
     ];
-
+    //提示信息
     protected $message  =   [
         'phone.require' => '请输入手机号',
         'phone.mobile'     => '请输入正确手机号',
@@ -25,9 +26,15 @@ class User extends Validate
         'code.number'   => '请输入正确验证码',
         'code.max'   => '请输入正确验证码',
         'code.length'     => '请输入正确验证码',
-        'type.require'   => '请选择注册身份',
-        'type.number'   => '请选择注册身份',
-        'type.length'     => '请选择注册身份',
+        'identity.require'   => '请选择注册身份',
+        'identity.number'   => '参数错误',
+        'identity.length'     => '参数错误',
+        'identity.in'     => '参数错误',
+    ];
+    //场景
+    protected $scene = [
+        'signin'  =>  ['phone','code'],
+        'choice'  =>  ['identity'],
     ];
 
 }

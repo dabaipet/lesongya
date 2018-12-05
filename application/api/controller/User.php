@@ -1,27 +1,27 @@
 <?php
 /**
- * 用户中心.
- * User: whp
- * Date: 2018/10/24
- * Time: 16:12
+ *-------------LeSongya--------------
+ * Explain: 用户控制器
+ * File name: User.php
+ * Date: 2018/12/5
+ * Author: 王海鹏
+ * Project name: 乐送呀
+ *------------------------------------
  */
-
 namespace app\api\controller;
 
-
-use think\facade\Session;
 use app\common\model\User as UserM;
-use app\common\model\UserInfo;
 
 class User extends Apibase
 {
     /*
      * 基本信息
-     * @return  头像 手机号 分数 金额 我的订单数
+     * @params  user表    头像 手机号 分数 金额 我的订单数
+     * @params  wallet表  钱包余额
+     * @params  order表  订单数
      * */
     public function index(){
-      $user = new UserM();
-      $userResult = $user->getRiderToken($this->token);
+        $user = new UserM();
 
     }
     /*
@@ -44,5 +44,11 @@ class User extends Apibase
     public function getGps(){
         $lng    =   $this->request->param('lng');
         $lat    =   $this->request->param('lat');
+    }
+    /*
+     * 头像设置
+     * */
+    public function setHeadpic(){
+
     }
 }

@@ -11,8 +11,6 @@ use think\Model;
 
 class User extends Model
 {
-    protected $autoWriteTimestamp = true;
-    //protected $auto = ['update_time'];
     protected $pk = 'uid';
     protected $insert = ['create_time'];
     protected $update = ['update_time'];
@@ -39,5 +37,9 @@ class User extends Model
         return $this->where('token', '=', $token)
             ->field('uid,token')
             ->find();
+    }
+    public function userinfo()
+    {
+        return $this->hasOne('user_info','uid');
     }
 }
