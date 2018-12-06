@@ -11,6 +11,9 @@
 namespace app\api\controller;
 
 use app\common\model\User as UserM;
+use app\common\model\Wallet;
+use app\common\model\Order;
+use think\facade\Cache;
 
 class User extends Apibase
 {
@@ -22,7 +25,16 @@ class User extends Apibase
      * */
     public function index(){
         $user = new UserM();
-
+        $userResult = $user -> getRiderInfo($this->token);
+        Cache::store('redis')->set($this->uid,$userResult);
+        echo Cache::store('redis')->get($this->uid);
+        die;
+        $order = new Order();
+        $orderResult = $order->getOrderNumber($this->uid,$this->identity);
+        $wallet = new Wallet();
+        $walletMoney = $wallet->getWalletNum($this->uid);
+        $money = empty($walletMoney) ? 0 : $walletMoney->give_m + $walletMoney->recharge_m;
+        return json(['code' => 200,'phone' => $userResult->phone,'order' => $orderResult,'wallet' => $money,]);
     }
     /*
      * 个人信息

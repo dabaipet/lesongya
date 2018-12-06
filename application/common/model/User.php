@@ -33,9 +33,9 @@ class User extends Model
     /*
      * 骑手信息
      * */
-    public function getRiderToken($token){
+    public function getRiderInfo($token){
         return $this->where('token', '=', $token)
-            ->field('uid,token')
+            ->field('uid,phone,token,status,identity,sex,head_pic,birthday')
             ->find();
     }
     public function userinfo()

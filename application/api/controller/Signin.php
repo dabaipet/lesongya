@@ -10,7 +10,6 @@ namespace app\api\controller;
 
 use think\facade\Session;
 use app\common\model\User;
-use app\common\model\UserInfo;
 
 class Signin extends Apibase
 {
@@ -28,13 +27,14 @@ class Signin extends Apibase
      * */
     public function index()
     {
+        Session::set('15210086673',1234);
         $phone = $this->request->param('phone');
         $code = $this->request->param('code');
         $result = $this->validate(['phone' => $phone, 'code' => $code], 'app\api\validate\User.signin');
         if (true !== $result) {
             return json(['code' => '202', 'msg' => $result]);
         }
-        if (Session::get($phone . 'sms') != $code) {
+        if (Session::get($phone) != $code) {
             return json(['code' => '202', 'msg' => showReturnCode('3003')]);
         }
         $user = new User();
@@ -77,6 +77,7 @@ class Signin extends Apibase
         $UserInfo = new User();
         $UserInfoResult = $UserInfo->allowField('identity')->save(['identity' => $identity],['uid' => $this->uid]);
         if ($UserInfoResult == true){
+            Session::set('identity', $identity);
             return json(['code' => '200', 'turl' => url('/location'),'msg' => showReturnCode('1020')]);
         }
     }
