@@ -1,24 +1,28 @@
 <?php
 /**
- * 注册登录控制器.
- * User: whp
- * Date: 2018/10/19
- * Time: 14:12
+ *-------------LeSongya--------------
+ * Explain: 注册登录
+ * File name: Signin.php
+ * Date: 2018/12/10
+ * Author: 王海鹏
+ * Project name: 乐送呀
+ *-----------------------------------------
  */
 
 namespace app\api\controller;
 
+use think\facade\Cache;
 use think\facade\Session;
 use app\common\model\User;
 
-class Signin extends Apibase
+class Signin extends SignBase
 {
     /*
      * 前置操作
      * */
     protected $middleware = [
         //'Auth' 	=> ['except' 	=> ['hello'] ],
-       // 'Hello' => ['only' 		=> ['index'] ],
+        // 'Hello' => ['only' 		=> ['index'] ],
     ];
     /*
      * 注册账号：
@@ -27,31 +31,36 @@ class Signin extends Apibase
      * */
     public function index()
     {
-        Session::set('15210086673',1234);
+       //Session::set('15210086675'.'sms',1222);
         $phone = $this->request->param('phone');
         $code = $this->request->param('code');
         $result = $this->validate(['phone' => $phone, 'code' => $code], 'app\api\validate\User.signin');
         if (true !== $result) {
             return json(['code' => '202', 'msg' => $result]);
         }
-        if (Session::get($phone) != $code) {
+        if (Session::get($phone.'sms') != $code) {
             return json(['code' => '202', 'msg' => showReturnCode('3003')]);
         }
         $user = new User();
-        $userResult = $user->getRider($phone);
-        if (empty($userResult)) {
-            $token = $this->request->token('token', 'sha1');
-            //过滤非数据表字段
-            $user->allowField(true)->save([
-                'phone' => $phone,
-                'token' => $token,
-            ]);
-            Session::set('uid', $user->uid);
-            Session::set('token', $user->token);
-            return json(['code' => '200', 'uid' => $user->uid, 'token' => $user->token, 'turl' => url('/signin-choice'), 'msg' => showReturnCode('5000')]);
-        }
+        if ( Cache::store('redis')->has('user'.$phone) == false){
+            $userResult = $user->getRider($phone);
+            if (empty($userResult)) {
+                $token = $this->request->token('token', 'sha1');
+                //过滤非数据表字段
+                $user->allowField(true)->save([
+                    'phone' => $phone,
+                    'token' => $token,
+                ]);
+                Cache::store('redis')->set('user'.$phone,$user::get($user->uid)->toJson());
+                }
+            else{
+                Cache::store('redis')->set('user'.$phone,$userResult->toJson());
+            }
+            }
+        //Cache::store('redis')->rm('user'.$phone);
+        $CacheUser = json_decode(Cache::store('redis')->get('user'.$phone));
         //账户状态
-        switch ($userResult->status){
+        switch ($CacheUser->status){
             case 2:
                 return json(['code' => '202', 'msg' => showReturnCode('4000')]);
                 break;
@@ -59,28 +68,10 @@ class Signin extends Apibase
                 return json(['code' => '202', 'msg' => showReturnCode('4002')]);
                 break;
         }
-        $user->isUpdate(true,['uid' => $userResult->uid])->save(['inc' =>['inc',1]]);
-        Session::set('uid', $userResult->uid);
-        Session::set('token', $userResult->token);
-        return json(['code' => '200', 'uid' => $userResult->uid, 'token' => $userResult->token, 'turl' => url('/signin-choice'), 'msg' => showReturnCode('5000')]);
+        $user->isUpdate(true,['uid' => $CacheUser->uid])->save(['inc' =>['inc',1]]);
+        return json(['code' => '200', 'phone' => $CacheUser->phone, 'token' => $CacheUser->token, 'turl' => url('/user-choice'), 'msg' => showReturnCode('5000')]);
     }
-    /*
-     * 用户选择身份
-     * @param   identity    身份标识 1骑手 2快递 3物业 4个人
-     * */
-    public function choice(){
-        $identity  =   $this->request->param('identity');
-        $result = $this->validate(['identity' => $identity], 'app\api\validate\User.choice');
-        if (true !== $result) {
-            return json(['code' => '202', 'msg' => $result]);
-        }
-        $UserInfo = new User();
-        $UserInfoResult = $UserInfo->allowField('identity')->save(['identity' => $identity],['uid' => $this->uid]);
-        if ($UserInfoResult == true){
-            Session::set('identity', $identity);
-            return json(['code' => '200', 'turl' => url('/location'),'msg' => showReturnCode('1020')]);
-        }
-    }
+
     /*
      * 第三方登录(微信)
      * */

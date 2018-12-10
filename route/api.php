@@ -18,6 +18,7 @@ Route::domain('api', function () {
     //用户信息
     Route::rule('user', 'user/index','GET|POST');
     Route::rule('user-info', 'user/info','GET|POST');
+    Route::rule('user-choice', 'user/choice','GET|POST');
     //Route::get(':c/:a', 'api/:c/:a');
     //Route::rule('worker', 'worker/onMessage','GET|POST');
 });

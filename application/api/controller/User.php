@@ -27,8 +27,6 @@ class User extends Apibase
         $user = new UserM();
         $userResult = $user -> getRiderInfo($this->token);
         Cache::store('redis')->set($this->uid,$userResult);
-        echo Cache::store('redis')->get($this->uid);
-        die;
         $order = new Order();
         $orderResult = $order->getOrderNumber($this->uid,$this->identity);
         $wallet = new Wallet();
@@ -62,5 +60,21 @@ class User extends Apibase
      * */
     public function setHeadpic(){
 
+    }
+    /*
+     * 用户选择身份
+     * @param   identity    身份标识 1骑手 2快递 3物业 4个人
+     * */
+    public function choice(){
+        $identity  =   $this->request->param('identity');
+        $result = $this->validate(['identity' => $identity], 'app\api\validate\User.choice');
+        if (true !== $result) {
+            return json(['code' => '202', 'msg' => $result]);
+        }
+        $UserInfo = new UserM();
+        $UserInfoResult = $UserInfo->allowField('identity')->save(['identity' => $identity],['uid' => $this->uid]);
+        if ($UserInfoResult == true){
+            return json(['code' => '200', 'turl' => url('/location'),'msg' => showReturnCode('1020')]);
+        }
     }
 }

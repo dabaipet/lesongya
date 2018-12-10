@@ -27,7 +27,6 @@ class User extends Model
      * */
     public function getRider($phone){
         return $this->where('phone', '=', $phone)
-            ->field('uid,token,status')
             ->find();
     }
     /*

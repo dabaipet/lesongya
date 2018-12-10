@@ -1,5 +1,5 @@
 <?php
-namespace app\api\Validate;
+namespace app\api\validate;
 /**
  * 注册用户验证器.
  * User: whp
@@ -15,6 +15,7 @@ class User extends Validate
         'phone'  => 'require|mobile|max:11|length:11',
         'code'   => 'require|number|max:4|length:4',
         'identity'   => 'require|number|length:1|in:1,2,3,4',
+        'apptoken'   => 'require',
     ];
     //提示信息
     protected $message  =   [
@@ -30,11 +31,13 @@ class User extends Validate
         'identity.number'   => '参数错误',
         'identity.length'     => '参数错误',
         'identity.in'     => '参数错误',
+        'apptoken.require'     => '参数错误',
     ];
     //场景
     protected $scene = [
         'signin'  =>  ['phone','code'],
         'choice'  =>  ['identity'],
+        'action'  =>  ['phone','apptoken']
     ];
 
 }

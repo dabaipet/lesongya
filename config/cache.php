@@ -26,8 +26,8 @@ return [
         'path'  =>  '../runtime/cache/',
     ],
     'redis'	=>	[
-        'type'	=>	'Redis',
-        'host'	=>	'127.0.0.1',
+        'type'	=>	'redis',
+        'host'	=>	'39.105.166.239',
         'port'       => 6379,
         'password'   => ';3eh0$=aj?.cz//8hVdgr%^$',
         'timeout'    => 3600,
@@ -35,7 +35,7 @@ return [
         // 全局缓存有效期（0为永久有效）
         'expire'=>  0,
         // 缓存前缀
-        'prefix'=>  'lscache',
+        'prefix'=>  'ls_cache',
     ],
     // 添加更多的缓存类型设置
 ];

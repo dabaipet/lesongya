@@ -14,23 +14,26 @@ use think\facade\Cache;
 class Apibase extends Controller
 {
 
-    protected $appSite = '';
-    protected $token;//全局接受                                                                                 token
+    protected $phone = null;
+    protected $token = null;//全局接受token
     protected $uid;//全局uid
     protected $identity; //身份标识
+    protected $CacheUser;
 
     public function __construct(App $app = null)
     {
         parent::__construct($app);
+        $this->phone =   $this->request->param('phone');
         $this->token =   $this->request->param('token');
-        $this->uid  =   Session::get('uid');
-        $this->identity  =   Session::get('identity');
+        $this->CacheUser = json_decode(Cache::store('redis')->get('user'.$this->phone));
+        $this->uid  =   $this->CacheUser->uid;
+        $this->identity  =    $this->CacheUser->identity;
         self::isLogin();
     }
     //Check does't login
     public function isLogin()
     {
-        if (Session::has('token') == false && Session::get('token') != $this->token) {
+        if ($this->CacheUser->token != $this->token) {
             return json(['code' => 202, 'turl' => url('/signin'), 'msg' => showReturnCode('2002')]);
         }
     }
