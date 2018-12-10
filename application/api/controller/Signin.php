@@ -11,6 +11,7 @@
 
 namespace app\api\controller;
 
+use function MongoDB\BSON\toJSON;
 use think\facade\Cache;
 use think\facade\Session;
 use app\common\model\User;
@@ -31,7 +32,7 @@ class Signin extends SignBase
      * */
     public function index()
     {
-       //Session::set('15210086675'.'sms',1222);
+        Session::set('15210086671'.'sms',1222);
         $phone = $this->request->param('phone');
         $code = $this->request->param('code');
         $result = $this->validate(['phone' => $phone, 'code' => $code], 'app\api\validate\User.signin');
@@ -69,7 +70,8 @@ class Signin extends SignBase
                 break;
         }
         $user->isUpdate(true,['uid' => $CacheUser->uid])->save(['inc' =>['inc',1]]);
-        return json(['code' => '200', 'phone' => $CacheUser->phone, 'token' => $CacheUser->token, 'turl' => url('/user-choice'), 'msg' => showReturnCode('5000')]);
+        Session::set('user'.$CacheUser->uid,json_encode($CacheUser));
+        return json(['code' => '200', 'uid' => $CacheUser->uid, 'token' => $CacheUser->token, 'turl' => url('/user-choice'), 'msg' => showReturnCode('5000')]);
     }
 
     /*
