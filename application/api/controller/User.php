@@ -41,11 +41,8 @@ class User extends Apibase
      * @return  头像  昵称  姓名  是否实名认证 手机号  性别  （微信 QQ） 是否绑定
      * */
     public function info(){
-        if (Cache::store('redis')->has('user'.$this->phone) === false){
-            $userResult = UserM::get($this->uid);
-            Cache::store('redis')->set('user'.$userResult->phone,$userResult);
-        }
-        return json(['code' => 200,'user' => $this->userCache]);
+        $user  = Cache::store('redis')->remember('user'.$this->phone,json_encode(UserM::get($this->uid)));
+        return json(['code' => 200,'user' => $user]);
     }
     /*
      * 物业设置存放点信息
