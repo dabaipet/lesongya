@@ -23,10 +23,11 @@ class User extends Model
         return request()->ip();
     }
     /*
-     * 查询单个骑手用户
+     * 注册查询状态信息
      * */
     public function getRider($phone){
         return $this->where('phone', '=', $phone)
+            ->field('uid,phone,token,status')
             ->find();
     }
     /*

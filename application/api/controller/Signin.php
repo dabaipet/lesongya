@@ -32,7 +32,7 @@ class Signin extends SignBase
      * */
     public function index()
     {
-        Session::set('15210086671'.'sms',1222);
+        //Session::set('15210086674'.'sms',1222);
         $phone = $this->request->param('phone');
         $code = $this->request->param('code');
         $result = $this->validate(['phone' => $phone, 'code' => $code], 'app\api\validate\User.signin');
@@ -44,7 +44,7 @@ class Signin extends SignBase
         }
         $user = new User();
         if ( Cache::store('redis')->has('user'.$phone) == false){
-            $userResult = $user->getRider($phone);
+            $userResult = $user::get(['phone' => $phone]);
             if (empty($userResult)) {
                 $token = $this->request->token('token', 'sha1');
                 //过滤非数据表字段
@@ -70,8 +70,8 @@ class Signin extends SignBase
                 break;
         }
         $user->isUpdate(true,['uid' => $CacheUser->uid])->save(['inc' =>['inc',1]]);
-        Session::set('user'.$CacheUser->uid,json_encode($CacheUser));
-        return json(['code' => '200', 'uid' => $CacheUser->uid, 'token' => $CacheUser->token, 'turl' => url('/user-choice'), 'msg' => showReturnCode('5000')]);
+        Session::set('user'.$CacheUser->uid,json_encode(['uid' => $CacheUser->uid,'token' => $CacheUser->token,'phone' => $CacheUser->phone]));
+        return json(['code' => '200', 'uid' => $CacheUser->uid, 'token' => $CacheUser->token, 'turl' => url('/user/choice'), 'msg' => showReturnCode('5000')]);
     }
 
     /*

@@ -14,6 +14,7 @@ use app\common\model\User as UserM;
 use app\common\model\Wallet;
 use app\common\model\Order;
 use think\facade\Cache;
+use think\facade\Session;
 
 class User extends Apibase
 {
@@ -40,7 +41,11 @@ class User extends Apibase
      * @return  头像  昵称  姓名  是否实名认证 手机号  性别  （微信 QQ） 是否绑定
      * */
     public function info(){
-
+        if (Cache::store('redis')->has('user'.$this->phone) === false){
+            $userResult = UserM::get($this->uid);
+            Cache::store('redis')->set('user'.$userResult->phone,$userResult);
+        }
+        return json(['code' => 200,'user' => $this->userCache]);
     }
     /*
      * 物业设置存放点信息
@@ -74,6 +79,7 @@ class User extends Apibase
         $UserInfo = new UserM();
         $UserInfoResult = $UserInfo->allowField('identity')->save(['identity' => $identity],['uid' => $this->uid]);
         if ($UserInfoResult == true){
+            Session::set('identity'.$this->uid,$identity);
             return json(['code' => '200', 'turl' => url('/location'),'msg' => showReturnCode('1020')]);
         }
     }
