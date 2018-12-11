@@ -59,6 +59,11 @@ class Url extends Dispatch
             // 解析控制器
             $controller = !empty($path) ? array_shift($path) : null;
         }
+        //路由getshell漏洞 20181211 https://blog.thinkphp.cn/869075
+        if ($controller && !preg_match('/^[A-Za-z](\w|\.)*$/', $controller)) {
+            throw new HttpException(404, 'controller not exists:' . $controller);
+        }
+
 
         // 解析操作
         $action = !empty($path) ? array_shift($path) : null;
