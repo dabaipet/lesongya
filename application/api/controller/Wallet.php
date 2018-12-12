@@ -45,4 +45,35 @@ class Wallet extends Apibase
     public function mealCard(){
 
     }
+    /*
+     * 充值
+     * */
+    public function recharge(){
+
+    }
+    /*
+     * 支付
+     * */
+    public function pay(){
+
+    }
+    /*
+     * 异步通知
+     * */
+    public function asynchr(){
+
+    }
+    /*
+     * 同步通知
+     * */
+    public function synchr(){
+
+    }
+    /*
+     *
+     * 提现
+     * */
+    public function cash(){
+        
+    }
 }

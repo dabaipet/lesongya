@@ -11,6 +11,7 @@
 
 namespace app\api\controller;
 
+use app\common\model\PropertyGps;
 use app\common\model\User as UserM;
 use app\common\model\Wallet;
 use app\common\model\Order;
@@ -41,7 +42,7 @@ class User extends Apibase
     /*
      * 个人信息
      * @param   uid
-     * @return  头像  昵称  姓名  是否实名认证 手机号  性别  （微信 QQ） 是否绑定
+     * @return  头像  姓名  是否实名认证 手机号  性别  （微信 QQ） 是否绑定
      * */
     public function info()
     {
@@ -54,6 +55,11 @@ class User extends Apibase
      * */
     public function setDeposit()
     {
+        $name = $this->request->param('name');
+        $lat = $this->request->param('lat');
+        $long = $this->request->param('long');
+        $property = new PropertyGps();
+        $property->save(['uid' => $this->uid,'name' => $name,'lat' => $lat, 'long' => $long]);
 
     }
 
@@ -92,4 +98,11 @@ class User extends Apibase
             return json(['code' => '200', 'turl' => url('/location'), 'msg' => showReturnCode('1020')]);
         }
     }
+    /*
+     * 绑定微信
+     * */
+    public function wechat(){
+
+    }
+
 }
