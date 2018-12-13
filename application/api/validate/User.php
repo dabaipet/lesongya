@@ -41,7 +41,8 @@ class User extends Validate
     protected $scene = [
         'signin'  =>  ['phone','code'],
         'choice'  =>  ['identity'],
-        'action'  =>  ['uid','apptoken']
+        'action'  =>  ['uid','apptoken'],
+        'set'      => ['phone', 'code'],
     ];
 
 }

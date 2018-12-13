@@ -51,6 +51,78 @@ class User extends Apibase
     }
 
     /*
+     * 头像设置
+     * */
+    public function setHeadpic()
+    {
+     $pic = $this->request->param('pic');
+     $user = new UserM();
+     $result = $user ->isUpdate(true, ['uid' => $this->uid])->save(['head_pic' => $pic]);
+     if ($result){
+         return json(['code' => 200]);
+     }else{
+         return
+             json(['code' => 202]);
+     }
+    }
+
+    /*
+     * 实名认证
+     * @param name 真实姓名
+     * @param idnum 身份证号
+     * @param idpic 身份证照片
+     * @param validty 有效期
+     * */
+    public function realName()
+    {
+        $name = $this->request->param('name');
+        $idNum = $this->request->param('idnum');
+        $idPic = $this->request->param('idpic');
+        $validty = $this->request->param('validty');
+
+
+    }
+    /*
+     * 设置手机号
+     * @param code 手机验证码
+     * @param newPhone 新手机号
+     * */
+    public function setPhone(){
+        $newPhone = $this->request->param('newphone');
+        $code = $this->request->param('code');
+        $msg = $this->validate(['phone' => $newPhone,'code' => $code],'app\api\validate\User.set');
+        if ($msg != true){
+            exit(json_encode(['code' => '202', 'msg' => $msg]));
+        }
+        if (Session::get($newPhone.'sms') != $code){
+            exit(json_encode(['code' => '202', 'msg' => showReturnCode('3003')]));
+        }
+        $user = new UserM();
+        $result = $user ->isUpdate(true, ['uid' => $this->uid])->save(['phone' => $newPhone]);
+        if ($result){
+            return json(['code' => '200', 'msg' => showReturnCode('1021')]);
+        }
+
+    }
+    /*
+     * 设置性别
+     * @param sex 性别
+     * */
+    public function setSex(){
+        $sex = $this->request->param('sex');
+        $msg = $this->validate(['sex' => $sex],'app\api\validate\User.set');
+        if ($msg != true){
+            exit(json_encode(['code' => '202', 'msg' => $msg]));
+        }
+        $user = new UserM();
+        $result = $user ->isUpdate(true, ['uid' => $this->uid])->save(['sex' => $sex]);
+        if ($result){
+            return json(['code' => '200', 'msg' => showReturnCode('1021')]);
+        }
+    }
+
+
+    /*
      * 物业设置存放点信息
      * */
     public function setDeposit()
@@ -59,7 +131,7 @@ class User extends Apibase
         $lat = $this->request->param('lat');
         $long = $this->request->param('long');
         $property = new PropertyGps();
-        $property->save(['uid' => $this->uid,'name' => $name,'lat' => $lat, 'long' => $long]);
+        $property->save(['uid' => $this->uid, 'name' => $name, 'lat' => $lat, 'long' => $long]);
 
     }
 
@@ -72,13 +144,6 @@ class User extends Apibase
         $lat = $this->request->param('lat');
     }
 
-    /*
-     * 头像设置
-     * */
-    public function setHeadpic()
-    {
-
-    }
 
     /*
      * 用户选择身份
@@ -98,10 +163,12 @@ class User extends Apibase
             return json(['code' => '200', 'turl' => url('/location'), 'msg' => showReturnCode('1020')]);
         }
     }
+
     /*
      * 绑定微信
      * */
-    public function wechat(){
+    public function wechat()
+    {
 
     }
 
