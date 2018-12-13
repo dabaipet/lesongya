@@ -31,9 +31,17 @@ class Order extends Model
             ->count('id');
     }
     /*
+     *
+     * */
+    public function getOrderView($id,$uid){
+        return $this->where(['id' => $id, 'uid' => $uid])
+            ->field(true)
+            ->find();
+    }
+    /*
      * 订单信息
      * */
-    public function getOrderInfo($uid,$identity){
+    public function getOrder($uid,$identity){
         return $this->where(['uid' => $uid,'is_cate' => $identity])
             ->field(true)
             ->find();
