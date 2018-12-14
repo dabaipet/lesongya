@@ -29,7 +29,7 @@ class User extends Apibase
     public function index()
     {
         $user = new UserM();
-        $userResult = $user->getRiderInfo($this->token);
+        $userResult = $user->getRiderInfo($this->uid);
         Cache::store('redis')->set($this->uid, $userResult);
         $order = new Order();
         $orderResult = $order->getOrderNumber($this->uid, $this->identity);
@@ -41,12 +41,12 @@ class User extends Apibase
 
     /*
      * 个人信息
-     * @param   uid
      * @return  头像  姓名  是否实名认证 手机号  性别  （微信 QQ） 是否绑定
      * */
     public function info()
     {
-        $user = Cache::store('redis')->remember('user' . $this->phone, json_encode(UserM::get($this->uid)));
+        $user = new UserM();
+        
         return json(['code' => 200, 'user' => $user]);
     }
 
@@ -55,15 +55,16 @@ class User extends Apibase
      * */
     public function setHeadpic()
     {
-     $pic = $this->request->param('pic');
-     $user = new UserM();
-     $result = $user ->isUpdate(true, ['uid' => $this->uid])->save(['head_pic' => $pic]);
-     if ($result){
-         return json(['code' => 200]);
-     }else{
-         return
-             json(['code' => 202]);
-     }
+        $pic = $this->request->param('pic');
+        $user = new UserM();
+        $result = $user->isUpdate(true, ['uid' => $this->uid])->save(['head_pic' => $pic]);
+        if ($result) {
+            $user->curdSessionUser($this->uid);
+            return json(['code' => 200]);
+        } else {
+            return
+                json(['code' => 202]);
+        }
     }
 
     /*
@@ -82,41 +83,47 @@ class User extends Apibase
 
 
     }
+
     /*
      * 设置手机号
      * @param code 手机验证码
      * @param newPhone 新手机号
      * */
-    public function setPhone(){
+    public function setPhone()
+    {
         $newPhone = $this->request->param('newphone');
         $code = $this->request->param('code');
-        $msg = $this->validate(['phone' => $newPhone,'code' => $code],'app\api\validate\User.set');
-        if ($msg != true){
+        $msg = $this->validate(['phone' => $newPhone, 'code' => $code], 'app\api\validate\User.set');
+        if ($msg != true) {
             exit(json_encode(['code' => '202', 'msg' => $msg]));
         }
-        if (Session::get($newPhone.'sms') != $code){
+        if (Session::get($newPhone . 'sms') != $code) {
             exit(json_encode(['code' => '202', 'msg' => showReturnCode('3003')]));
         }
         $user = new UserM();
-        $result = $user ->isUpdate(true, ['uid' => $this->uid])->save(['phone' => $newPhone]);
-        if ($result){
+        $result = $user->isUpdate(true, ['uid' => $this->uid])->save(['phone' => $newPhone]);
+        if ($result) {
+            $user->curdSessionUser($this->uid);
             return json(['code' => '200', 'msg' => showReturnCode('1021')]);
         }
 
     }
+
     /*
      * 设置性别
      * @param sex 性别
      * */
-    public function setSex(){
+    public function setSex()
+    {
         $sex = $this->request->param('sex');
-        $msg = $this->validate(['sex' => $sex],'app\api\validate\User.set');
-        if ($msg != true){
+        $msg = $this->validate(['sex' => $sex], 'app\api\validate\User.set');
+        if ($msg != true) {
             exit(json_encode(['code' => '202', 'msg' => $msg]));
         }
         $user = new UserM();
-        $result = $user ->isUpdate(true, ['uid' => $this->uid])->save(['sex' => $sex]);
-        if ($result){
+        $result = $user->isUpdate(true, ['uid' => $this->uid])->save(['sex' => $sex]);
+        if ($result) {
+            $user->curdSessionUser($this->uid);
             return json(['code' => '200', 'msg' => showReturnCode('1021')]);
         }
     }

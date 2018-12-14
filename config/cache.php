@@ -33,7 +33,7 @@ return [
         'timeout'    => 3600,
         'persistent' => false,
         // 全局缓存有效期（0为永久有效）
-        'expire'=>  0,
+        'expire'=>  2678389,
         // 缓存前缀
         'prefix'=>  'ls_cache',
     ],

@@ -7,5 +7,5 @@
  */
 
 return [
-    'expiry_time'  =>  31,//token 过期时间
+    'cache_expiry_time'  =>  2678389,//过期时间 秒
 ];

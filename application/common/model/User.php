@@ -9,6 +9,8 @@
 namespace app\common\model;
 
 
+use think\facade\Cache;
+use think\facade\Session;
 use think\Model;
 
 class User extends Model
@@ -16,12 +18,27 @@ class User extends Model
     protected $pk = 'uid';
     protected $update = ['update_time'];
 
-    public function getRider($phone){
-        return $this->where('phone','=',$phone)
+    public function getRider($phone)
+    {
+        return $this->where('phone', '=', $phone)
             ->field(true)
             ->find();
     }
-    public function getRiderInfo(){
+
+    /*
+     * 增删改查缓存用户数据
+     * @param uid
+     * */
+    public function curdSessionUser($uid)
+    {
+        $result = $this->where('uid', '=', $uid)
+            ->field(true)
+            ->find();
+        Cache::store('redis')->set('user' . $uid, json_encode($result));
+    }
+
+    public function getRiderInfo($uid)
+    {
 
     }
 }

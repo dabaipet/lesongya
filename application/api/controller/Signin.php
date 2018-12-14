@@ -14,7 +14,6 @@ namespace app\api\controller;
 use think\facade\Cache;
 use think\facade\Session;
 use app\common\model\User;
-
 class Signin extends SignBase
 {
     /*
@@ -32,7 +31,6 @@ class Signin extends SignBase
      * */
     public function index()
     {
-        //Session::set('15210086674'.'sms',1222);
         $phone = $this->request->param('phone');
         $code = $this->request->param('code');
         $result = $this->validate(['phone' => $phone, 'code' => $code], 'app\api\validate\User.signin');
@@ -57,9 +55,9 @@ class Signin extends SignBase
             Session::set('user' . $userResult->uid, $userResult->toJson());
             $uidVble = $userResult->uid;
         }
-        $CacheUser = json_decode(Session::get('user' . $uidVble));
+        $userSession = json_decode(Session::get('user' . $uidVble));
         //账户状态
-        switch ($CacheUser->status) {
+        switch ($userSession->status) {
             case 2:
                 return json(['code' => '202', 'msg' => showReturnCode('4000')]);
                 break;
@@ -67,8 +65,8 @@ class Signin extends SignBase
                 return json(['code' => '202', 'msg' => showReturnCode('4002')]);
                 break;
         }
-        $user->isUpdate(true, ['uid' => $CacheUser->uid])->save(['inc' => ['inc', 1]]);
-        return json(['code' => '200', 'uid' => $CacheUser->uid, 'token' => $CacheUser->token, 'turl' => url('/user/choice'), 'msg' => showReturnCode('5000')]);
+        $user->isUpdate(true, ['uid' => $userSession->uid])->save(['inc' => ['inc', 1]]);
+        return json(['code' => '200', 'uid' => $userSession->uid, 'token' => $userSession->token, 'turl' => url('/user/choice'), 'msg' => showReturnCode('5000')]);
     }
 
     /*
