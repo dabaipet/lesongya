@@ -8,7 +8,6 @@
 
 namespace app\common\model;
 
-use think\facade\Session;
 use think\Model;
 use think\facade\Cache;
 

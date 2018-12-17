@@ -22,11 +22,11 @@ class Wallet extends Apibase
      * */
     public function index(){
         $wallet = new WalletM();
-        if (Cache::store('redis')->has('wallet'.$this->uid)){
+        if (Cache::store('redis')->has('wallet'.$this->uid) == false){
             $wallet->curdCacheWallet($this->uid);
         }
         $result = Cache::store('redis')->get('wallet'.$this->uid);
-        return json(['code' =>200,'data' => $result]);
+        return json(['code' =>200,'data' => json_decode($result)]);
     }
     /*
      * 余额页面显示
