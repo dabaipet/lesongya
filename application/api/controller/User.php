@@ -46,7 +46,7 @@ class User extends Apibase
     public function info()
     {
         $user = new UserM();
-        
+
         return json(['code' => 200, 'user' => $user]);
     }
 
@@ -56,14 +56,14 @@ class User extends Apibase
     public function setHeadpic()
     {
         $pic = $this->request->param('pic');
+        //调用图片上传接口
         $user = new UserM();
         $result = $user->isUpdate(true, ['uid' => $this->uid])->save(['head_pic' => $pic]);
         if ($result) {
             $user->curdSessionUser($this->uid);
             return json(['code' => 200]);
         } else {
-            return
-                json(['code' => 202]);
+            return json(['code' => 202]);
         }
     }
 
@@ -80,8 +80,19 @@ class User extends Apibase
         $idNum = $this->request->param('idnum');
         $idPic = $this->request->param('idpic');
         $validty = $this->request->param('validty');
-
-
+        //参数校验
+        $msg = $this->validate(['name' => $name, 'idNum' => $idNum, 'idPic' => $idPic, 'validty' => $validty], 'app\api\validate\User.set');
+        if ($msg != true) {
+            exit(json_encode(['code' => '202', 'msg' => $msg]));
+        }
+        $user = new UserM();
+        $result = $user->isUpdate('true', ['uid' => $this->uid])->save(['name' => $name, 'id_pic' => $idPic, 'id_num' => $idNum, 'validty' => $validty]);
+        if ($result) {
+            $user->curdSessionUser($this->uid);
+            return json(['code' => 200]);
+        } else {
+            return json(['code' => 202]);
+        }
     }
 
     /*
