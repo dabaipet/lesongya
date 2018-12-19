@@ -16,7 +16,7 @@ class Wallet extends Apibase
      * @return  余额 优惠券张数
      * */
     public function index(){
-
+        
     }
     /*
      * 余额页面显示

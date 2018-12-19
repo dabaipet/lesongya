@@ -16,6 +16,7 @@
       <path value="$PROJECT_DIR$/vendor/topthink/think-mongo" />
       <path value="$PROJECT_DIR$/vendor/topthink/think-helper" />
       <path value="$PROJECT_DIR$/vendor/topthink/think-image" />
+      <path value="$PROJECT_DIR$/vendor/qcloudsms/qcloudsms_php" />
     </include_path>
   </component>
 </project>
