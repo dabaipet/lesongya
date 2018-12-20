@@ -62,21 +62,14 @@ function showReturnCode($code = '', $msg = '')
 }
 
 /*********************  微信函数列表 ***************************/
-//接口输出
-function echoResult($errorCode = 0, $errorMsg = 'success', $responseData = array())
-{
-    $arr = array(
-        'errorCode' => $errorCode,
-        'errorMsg' => $errorMsg,
-        'responseData' => $responseData,
-    );
-    exit(json_encode($arr));  //exit可以正常发送给APP json数据
-    // return json_encode($arr); //在TP5中return这个json数据，APP接收到的是null,无法正常吊起微信支付
-}
-
+/*
+ *获取签名
+ * @params  $data 签名数据
+ * @param   $key key
+ * */
 function getVerifySign($data, $key)
 {
-    $String = $this->formatParameters($data, false);
+    $String = formatParameters($data, false);
     //签名步骤二：在string后加入KEY
     $String = $String . "&key=" . $key;
     //签名步骤三：MD5加密
@@ -85,8 +78,11 @@ function getVerifySign($data, $key)
     $result = strtoupper($String);
     return $result;
 }
-
-function formatParameters($paraMap, $urlencode)
+/*
+ * 字典排序
+ * @params  $paramMap   数组
+ * */
+function formatParameters($paraMap, $urlencode = false)
 {
     $buff = "";
     ksort($paraMap);
@@ -99,7 +95,7 @@ function formatParameters($paraMap, $urlencode)
         }
         $buff .= $k . "=" . $v . "&";
     }
-    $reqPar;
+    $reqPar = '';
     if (strlen($buff) > 0) {
         $reqPar = substr($buff, 0, strlen($buff) - 1);
     }
@@ -119,7 +115,7 @@ function getSign($obj, $api_key)
     }
     //签名步骤一：按字典序排序参数
     ksort($Parameters);
-    $String = $this->formatBizQueryParaMap($Parameters, false);
+    $String = formatBizQueryParaMap($Parameters, false);
     //签名步骤二：在string后加入KEY
     $String = $String . "&key=" . $api_key;
     //签名步骤三：MD5加密

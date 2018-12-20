@@ -2,8 +2,8 @@
 
 /**
  *-------------LeSongya--------------
- * Explain:
- * File name: LesongPay.php
+ * Explain:  微信支付
+ * File name: WechatPay.php
  * Date: 2018/12/20
  * Author: 王海鹏
  * Project name: 乐送呀
@@ -33,7 +33,7 @@ class WechatPay
     {
         $this->total_fee = intval($total_fee * 100);//订单的金额 1元
         $this->out_trade_no = $tade_no;// date('YmdHis') . substr(time(), - 5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));//订单号
-        $this->body = '乐送呀微信支付';//支付描述信息
+        $this->body = '乐送呀';//支付描述信息
         $this->time_expire = date('YmdHis', time() + 86400);//订单支付的过期时间(eg:一天过期)
         $this->notify_url = "https://api.lesongya.com/notifyandroid";//异步通知URL(更改支付状态)
         //数据以JSON的形式返回给APP
