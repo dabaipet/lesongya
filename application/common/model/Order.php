@@ -46,4 +46,12 @@ class Order extends Model
             ->field(true)
             ->find();
     }
+    /*
+     * 订单号查询信息
+     * */
+    public function getOrderNum($number){
+        return $this->where(['number' => $number])
+            ->field('uid,money,o_status,f_status,is_show')
+            ->find();
+    }
 }
