@@ -19,7 +19,7 @@ use app\common\model\Order;
 class Pay extends Apibase
 {
 //调用统一下单接口生成预支付订单并把数据返回给APP
-    public function wxpayandroid()
+    public function wechatApp()
     {
         $param = $this->request->param(); //接收值
 
@@ -28,14 +28,15 @@ class Pay extends Apibase
         $result = $order->getOrderNum($tade_no); //查询订单信息
         $total_fee = $result->money; //订单总金额
 
-        $wxpayandroid = new \LesongPay();  //实例化微信支付类
-        $wxpayandroid->WechatApp($total_fee,$tade_no); //调用weixinpay方法
+        $wxpayandroid = new \WechatPay();  //实例化微信支付类
+        $wxpayandroid->App($total_fee, $tade_no); //调用weixinpay方法
 
     }
+
     //异步通知接口
-    public function notifyandroid()
+    public function wechatNotify()
     {
-        $wxpayandroid = new \LesongPay();  //实例化微信支付类
+        $wxpayandroid = new \WechatPay();  //实例化微信支付类
         $verify_result = $wxpayandroid->verifyNotify();
         if ($verify_result['return_code'] == 'SUCCESS' && $verify_result['result_code'] == 'SUCCESS') {
             //商户订单号

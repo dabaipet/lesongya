@@ -11,7 +11,7 @@
  */
 class WechatPay
 {
-//参数配置
+    //参数配置
     public $config = array(
         'appid' => "", /*微信开放平台上的应用id*/
         'mch_id' => "", /*微信申请成功之后邮件中的商户id*/
@@ -29,7 +29,7 @@ class WechatPay
     public $time_expire = '';
     private $WxPayHelper;
 
-    public function WechatApp($total_fee,$tade_no)
+    public function App($total_fee,$tade_no)
     {
         $this->total_fee = intval($total_fee * 100);//订单的金额 1元
         $this->out_trade_no = $tade_no;// date('YmdHis') . substr(time(), - 5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));//订单号
