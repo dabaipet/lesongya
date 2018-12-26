@@ -11,19 +11,9 @@
 namespace app\api\controller;
 
 use app\common\model\PropertyGps;
-use think\facade\Session;
-use think\facade\Cache;
-use app\common\model\User;
 
 class Index extends Apibase
 {
-
-    /*
-     * 当前定位
-     * */
-    public function index(){
-
-    }
     /*
      * 获取当前定位周边信息
      * @param   long 经度
@@ -44,14 +34,10 @@ class Index extends Apibase
         return json(['ss'=>$aroundAddress]);
     }
     /*
-     * 骑手下单
-     * @param   phone   手机号
-     * @param   address 详细地址（明了即可）
-     * @param   addname 楼宇/小区名称
+     * 定位当前位置
      * */
-    public function preorder(){
-        $this->isLogin();
-        $phone = $this->request->param('phone');
-        $address = $this->request->param('address');
+    public function present(){
+
     }
+
 }
