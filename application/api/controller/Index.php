@@ -15,7 +15,7 @@ use think\facade\Session;
 use think\facade\Cache;
 use app\common\model\User;
 
-class Index extends Apibase
+class Index extends SignBase
 {
 
     /*
@@ -42,16 +42,5 @@ class Index extends Apibase
         $gpsAround = new PropertyGps();
         $aroundAddress = $gpsAround->getDistance("$long","$lat");
         return json(['ss'=>$aroundAddress]);
-    }
-    /*
-     * 骑手下单
-     * @param   phone   手机号
-     * @param   address 详细地址（明了即可）
-     * @param   addname 楼宇/小区名称
-     * */
-    public function preorder(){
-        $this->isLogin();
-        $phone = $this->request->param('phone');
-        $address = $this->request->param('address');
     }
 }
