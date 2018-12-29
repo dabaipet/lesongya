@@ -1,22 +1,32 @@
 <?php
 /**
- * 钱包控制器.
- * User: whp
- * Date: 2018/10/24
- * Time: 23:52
+ *-------------LeSongya--------------
+ * Explain: 钱包控制器
+ * File name: Wallet.php
+ * Date: 2018/12/17
+ * Author: 王海鹏
+ * Project name: 乐送呀
+ *-----------------------------------------
  */
 
 namespace app\api\controller;
 
+use app\common\model\Wallet as WalletM;
+use think\facade\Cache;
 
 class Wallet extends Apibase
 {
     /*
      * 钱包首页
-     * @return  余额 优惠券张数
+     * @return  余额
      * */
     public function index(){
-        
+        $wallet = new WalletM();
+        if (Cache::store('redis')->has('wallet'.$this->uid) == false){
+            $wallet->curdCacheWallet($this->uid);
+        }
+        $result = Cache::store('redis')->get('wallet'.$this->uid);
+        return json(['code' =>200,'data' => json_decode($result)]);
     }
     /*
      * 余额页面显示
@@ -40,7 +50,7 @@ class Wallet extends Apibase
 
     }
     /*
-     * 饭卡
+     * 月卡
      * */
     public function mealCard(){
 
@@ -74,6 +84,6 @@ class Wallet extends Apibase
      * 提现
      * */
     public function cash(){
-        
+
     }
 }

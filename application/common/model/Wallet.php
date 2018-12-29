@@ -8,8 +8,8 @@
 
 namespace app\common\model;
 
-use think\facade\Session;
 use think\Model;
+use think\facade\Cache;
 
 class Wallet extends Model
 {
@@ -27,5 +27,16 @@ class Wallet extends Model
         return $wallet = $this->where('uid', '=', $uid)
             ->field('give_m,recharge_m')
             ->find();
+    }
+    /*
+     * 增删改查缓存数据
+     * @param uid
+     * */
+    public function curdCacheWallet($uid)
+    {
+        $result = $this->where('uid', '=', $uid)
+            ->field(true)
+            ->find();
+        Cache::store('redis')->set('wallet' . $uid, json_encode($result));
     }
 }
