@@ -10,7 +10,6 @@ namespace app\common\model;
 
 
 use think\facade\Cache;
-use think\facade\Session;
 use think\Model;
 
 class User extends Model
