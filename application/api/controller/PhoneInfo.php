@@ -7,7 +7,7 @@
  */
 
 namespace app\api\controller;
-use app\index\model\Phone;
+use app\common\model\Phone;
 
 class PhoneInfo extends Apibase
 {
