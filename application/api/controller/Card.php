@@ -12,8 +12,8 @@
  */
 namespace app\api\controller;
 
-use app\api\model\Bankcard;
-use app\api\model\Idcard;
+use app\common\model\Bankcard;
+use app\common\model\Idcard;
 
 class Card extends Apibase
 {
