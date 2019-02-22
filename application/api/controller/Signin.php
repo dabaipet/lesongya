@@ -72,8 +72,7 @@ class Signin extends SignBase
     /*
      * 第三方登录(微信)
      * */
-    public
-    function thirdParty()
+    public function thirdParty()
     {
 
     }

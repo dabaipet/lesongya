@@ -11,14 +11,13 @@
  */
 namespace app\api\controller;
 
-use app\common\model\Alisms;
 
 class Sms extends Apibase
 {
     /**
      * 发送短信
-     * @param $PhoneNumbers 手机号
-     * @param   $CodeType   发送场景
+     * @param $PhoneNumbers //手机号
+     * @param   $CodeType   //发送场景
      */
     public function send($PhoneNumbers,$CodeType) {
         switch ($CodeType){
@@ -41,7 +40,7 @@ class Sms extends Apibase
                 $TemplateCode   =   'SMS_151450694';
                 break;
         }
-        $AliSms =   new Alisms();
+        $AliSms =   new \Alisms();
         $result =   $AliSms -> sendSms($PhoneNumbers,$TemplateCode);
         if ($result == true){
             return json(['code' => 200,'msg' => showReturnCode('3000')]);

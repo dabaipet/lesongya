@@ -66,6 +66,13 @@ class Card extends Apibase
     {
 
     }
+    /*
+     *
+     *
+     * */
+    public function notile(){
+
+    }
 
 
 }

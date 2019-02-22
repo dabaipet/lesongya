@@ -25,7 +25,7 @@ class User extends Model
     }
 
     /*
-     * 增删改查缓存用户数据
+     * 增删改查 缓存用户数据
      * @param uid
      * */
     public function curdSessionUser($uid)
