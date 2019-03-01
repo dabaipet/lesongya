@@ -29,14 +29,14 @@ class User extends Apibase
     public function index()
     {
         $user = new UserM();
-        $userResult = $user->getRiderInfo($this->uid);
-        Cache::store('redis')->set($this->uid, $userResult);
+        $userResult = $user->getUserIndex($this->uid);
         $order = new Order();
         $orderResult = $order->getOrderNumber($this->uid, $this->identity);
         $wallet = new Wallet();
         $walletMoney = $wallet->getWalletNum($this->uid);
         $money = empty($walletMoney) ? 0 : $walletMoney->give_m + $walletMoney->recharge_m;
-        return json(['code' => 200, 'phone' => $userResult->phone, 'order' => $orderResult, 'wallet' => $money,]);
+        return json(['code' => 200, 'phone' => $userResult->phone, 'order' => $orderResult, 'wallet' => $money]);
+
     }
 
     /*
@@ -46,8 +46,9 @@ class User extends Apibase
     public function info()
     {
         $user = new UserM();
+        $userResult = $user->getUserInfo($this->uid);
 
-        return json(['code' => 200, 'user' => $user]);
+        return json(['code' => 200, 'user' => $userResult]);
     }
 
     /*
@@ -55,7 +56,21 @@ class User extends Apibase
      * */
     public function setHeadpic()
     {
-        $pic = $this->request->param('pic');
+        $updoke = new \QiniuUploadPic();
+        $updoke ->UploadManager();
+        die;
+
+        $file = $this->request->file('pic');
+        $msg = $this->validate(['variable' => $file], 'app\api\validate\User.variable');
+        if ($msg !== true) {
+            exit(json_encode(['code' => '202', 'msg' => 'pic' . $msg]));
+        }
+        if($file){
+            $ext = pathinfo($file->getInfo('name'), PATHINFO_EXTENSION);
+            $FileNewName =substr(md5($file->getRealPath()) , 0, 5). date('YmdHis') . rand(0, 9999) . '.' . $ext;
+
+        }
+        die;
         //调用图片上传接口
         $user = new UserM();
         $result = $user->isUpdate(true, ['uid' => $this->uid])->save(['head_pic' => $pic]);
@@ -105,7 +120,7 @@ class User extends Apibase
         $newPhone = $this->request->param('newphone');
         $code = $this->request->param('code');
         $msg = $this->validate(['phone' => $newPhone, 'code' => $code], 'app\api\validate\User.set');
-        if ($msg != true) {
+        if ($msg !== true) {
             exit(json_encode(['code' => '202', 'msg' => $msg]));
         }
         if (Session::get($newPhone . 'sms') != $code) {
@@ -128,7 +143,7 @@ class User extends Apibase
     {
         $sex = $this->request->param('sex');
         $msg = $this->validate(['sex' => $sex], 'app\api\validate\User.set');
-        if ($msg != true) {
+        if ($msg !== true) {
             exit(json_encode(['code' => '202', 'msg' => $msg]));
         }
         $user = new UserM();
@@ -160,6 +175,7 @@ class User extends Apibase
     {
         $lng = $this->request->param('lng');
         $lat = $this->request->param('lat');
+
     }
 
 

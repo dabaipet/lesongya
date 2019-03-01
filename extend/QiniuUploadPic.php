@@ -13,7 +13,7 @@ use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
 class QiniuUploadPic
 {
-    protected  $accessKey = 'IMYsTotd2x68gdty22MvxRY-YKe03Ls36HFNaG3p';
+    protected $accessKey = 'IMYsTotd2x68gdty22MvxRY-YKe03Ls36HFNaG3p';
     protected $secretKey = 'IwmkHiCUlmMW2dSzWjRdvvKbpOzQyUq4iPfPQgaY';
     protected $auth;
     protected $bucket = 'lesongya-user-images';
@@ -21,13 +21,17 @@ class QiniuUploadPic
     public function __construct()
     {
         $this->auth = new Auth($this->accessKey, $this->secretKey);
-        $token = $this->auth->uploadToken($this->bucket);
     }
     /*
      * 上传类
      * */
     public function UploadManager(){
-        $uploadMgr = new UploadManager();
+        $expires = 3600;
+
+        $policy = null;
+        $upToken = $this->auth->uploadToken($this->bucket, null, $expires, $policy, true);
+
+        print($upToken . "\n");
     }
 
 }

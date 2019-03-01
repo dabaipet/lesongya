@@ -17,12 +17,33 @@ class User extends Model
     protected $pk = 'uid';
     protected $update = ['update_time'];
 
-    public function getRider($phone)
+    /*
+     * 注册登录查询 使用
+     * */
+    public function getUser($phone)
     {
-        return $this->where('phone', '=', $phone)
+        return $this->where('uid', '=', $phone)
             ->field(true)
             ->find();
     }
+    /*
+     * 查看个人信息使用
+     * */
+    public function getUserInfo($uid)
+    {
+        return $this->where('uid', '=', $uid)
+            ->field(true)
+            ->find();
+    }
+    /*
+     *个人信息
+     * return object
+     * */
+        public function getUserIndex($uid)
+        {
+            self::curdSessionUser($uid);
+            return json_decode(Cache::store('redis')->get('user' . $uid));
+        }
 
     /*
      * 增删改查 缓存用户数据
@@ -36,8 +57,5 @@ class User extends Model
         Cache::store('redis')->set('user' . $uid, json_encode($result));
     }
 
-    public function getRiderInfo($uid)
-    {
 
-    }
 }
