@@ -33,6 +33,7 @@ class Signin extends SignBase
     {
         $phone = $this->request->param('phone');
         $code = $this->request->param('code');
+        Session::set($phone . 'sms', $code);
         $result = $this->validate(['phone' => $phone, 'code' => $code], 'app\api\validate\User.signin');
         if (true !== $result) {
             return json(['code' => '202', 'msg' => $result]);
@@ -41,7 +42,7 @@ class Signin extends SignBase
             return json(['code' => '202', 'msg' => showReturnCode('3003')]);
         }
         $user = new User();
-        $userResult = $user->getRider($phone);
+        $userResult = $user->getUser($phone);
         if (empty($userResult)) {
             $token = $this->request->token('token', 'sha1');
             //过滤非数据表字段
@@ -72,8 +73,7 @@ class Signin extends SignBase
     /*
      * 第三方登录(微信)
      * */
-    public
-    function thirdParty()
+    public function thirdParty()
     {
 
     }

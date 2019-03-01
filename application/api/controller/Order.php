@@ -46,7 +46,32 @@ class Order extends Apibase
         return json(['code' => 200, 'view' =>Cache::store('redis')->get('order'.$id)]);
     }
     /*
-     *
+     * 骑手下单
+     * @param   phone   手机号
+     * @param   address 详细地址（明了即可）
+     * @param   addname 楼宇/小区名称
      * */
+<<<<<<< HEAD
 
+=======
+    public function preOrder(){
+        $phone = $this->request->param('phone');
+        $addid = $this->request->param('addid');
+        $address = $this->request->param('address');
+        $order = new OrderM();
+        $order->phone = $phone;
+        $order->address = $address;
+        if (empty($order->replace()->save())){
+            return json(['code' => 202, 'msg' => showReturnCode('2007'),'turl' => url('')]);
+        }else{
+            return json(['code' => 200, 'msg' => showReturnCode('2008'),'turl' => url('')]);
+        }
+    }
+    /*
+     * 下单成功后，支付信息列表
+     * */
+    public function payOrder(){
+
+    }
+>>>>>>> 93a35c4fa7e9fdfc5b14ac0e331ed2f2e7573f7e
 }

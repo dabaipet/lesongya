@@ -15,6 +15,7 @@ return array(
     'think\\' => array($vendorDir . '/topthink/think-image/src'),
     'app\\' => array($baseDir . '/application'),
     'Workerman\\' => array($vendorDir . '/workerman/workerman'),
+    'Qiniu\\' => array($vendorDir . '/qiniu/php-sdk/src/Qiniu'),
     'Qcloud\\Sms\\' => array($vendorDir . '/qcloudsms/qcloudsms_php/src'),
     'Phinx\\' => array($vendorDir . '/topthink/think-migration/phinx/src/Phinx'),
 );

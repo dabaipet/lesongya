@@ -12,7 +12,7 @@ namespace app\api\controller;
 
 use app\common\model\PropertyGps;
 
-class Index extends Apibase
+class Index extends SignBase
 {
     /*
      * 获取当前定位周边信息
@@ -39,5 +39,4 @@ class Index extends Apibase
     public function present(){
 
     }
-
 }

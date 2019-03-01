@@ -17,6 +17,7 @@ class User extends Validate
         'identity'   => 'require|number|length:1|in:1,2,3,4',
         'uid'   => 'require|number',
         'apptoken'   => 'require',
+        'variable'   => 'require',
     ];
     //提示信息
     protected $message  =   [
@@ -36,6 +37,7 @@ class User extends Validate
         'identity.in'     => '参数错误',
 
         'apptoken.require'     => '参数错误',
+        'variable.require' => '参数不能为空',
     ];
     //场景
     protected $scene = [
@@ -43,6 +45,7 @@ class User extends Validate
         'choice'  =>  ['identity'],
         'action'  =>  ['uid','apptoken'],
         'set'      => ['phone', 'code'],
+        'variable' =>  ['variable']
     ];
 
 }
