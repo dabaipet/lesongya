@@ -25,13 +25,20 @@ class QiniuUploadPic
     /*
      * 上传类
      * */
-    public function UploadManager(){
-        $expires = 3600;
+    public function UploadManager($FileNewName,$filePath){
 
-        $policy = null;
-        $upToken = $this->auth->uploadToken($this->bucket, null, $expires, $policy, true);
+        $uploadMgr = new UploadManager();
+        $token = $this->auth->uploadToken($this->bucket);
+        // 上传文件到七牛
+        list($ret, $err) = $uploadMgr->putFile($token, $FileNewName, $filePath);
+        echo "\n====> putFile result: \n";
+        if ($err !== null) {
+            var_dump($err);
+        } else {
+            var_dump($ret);
+        }
 
-        print($upToken . "\n");
     }
+
 
 }

@@ -36,7 +36,6 @@ class User extends Apibase
         $walletMoney = $wallet->getWalletNum($this->uid);
         $money = empty($walletMoney) ? 0 : $walletMoney->give_m + $walletMoney->recharge_m;
         return json(['code' => 200, 'phone' => $userResult->phone, 'order' => $orderResult, 'wallet' => $money]);
-
     }
 
     /*
@@ -47,8 +46,8 @@ class User extends Apibase
     {
         $user = new UserM();
         $userResult = $user->getUserInfo($this->uid);
-
         return json(['code' => 200, 'user' => $userResult]);
+
     }
 
     /*
@@ -56,30 +55,30 @@ class User extends Apibase
      * */
     public function setHeadpic()
     {
-        $updoke = new \QiniuUploadPic();
-        $updoke ->UploadManager();
-        die;
-
         $file = $this->request->file('pic');
+       // $info = $file->validate(['size'=>15678,'ext'=>'jpg,png,gif'])->move( '../uploads');
         $msg = $this->validate(['variable' => $file], 'app\api\validate\User.variable');
         if ($msg !== true) {
             exit(json_encode(['code' => '202', 'msg' => 'pic' . $msg]));
         }
         if($file){
-            $ext = pathinfo($file->getInfo('name'), PATHINFO_EXTENSION);
-            $FileNewName =substr(md5($file->getRealPath()) , 0, 5). date('YmdHis') . rand(0, 9999) . '.' . $ext;
-
+            //$ext = pathinfo($file->getInfo('name'), PATHINFO_EXTENSION);
+            //$FileNewName =substr(md5($file->getRealPath()) , 0, 5). date('YmdHis') . rand(0, 9999) . '.' . $ext;
+            $imageView = 'imageView2/1/w/200/h/200/q/75|imageslim';//图片样式
+            $updoke = new \QiniuUploadPic();
+            $updoke ->UploadManager($file->getFilename(),$file->getRealPath());
+            $pic = 'http://pn7xldr19.bkt.clouddn.com'.$file->getFilename().'?'. $imageView;
+            //调用图片上传接口
+            $user = new UserM();
+            $result = $user->isUpdate(true, ['uid' => $this->uid])->save(['head_pic' => $pic]);
+            if ($result) {
+                $user->curdSessionUser($this->uid);
+                return json(['code' => 200, 'msg' => showReturnCode('1001')]);
+            } else {
+                return json(['code' => 202 , 'msg' => showReturnCode('1002')]);
+            }
         }
-        die;
-        //调用图片上传接口
-        $user = new UserM();
-        $result = $user->isUpdate(true, ['uid' => $this->uid])->save(['head_pic' => $pic]);
-        if ($result) {
-            $user->curdSessionUser($this->uid);
-            return json(['code' => 200]);
-        } else {
-            return json(['code' => 202]);
-        }
+        return json(['code' => 202, 'msg' => showReturnCode('1009')]);
     }
 
     /*

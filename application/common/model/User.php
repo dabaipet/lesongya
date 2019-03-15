@@ -17,6 +17,19 @@ class User extends Model
     protected $pk = 'uid';
     protected $update = ['update_time'];
 
+
+    /*
+     * 检测用户数据Redis是否存在数据
+     * */
+    protected function checkCacheRedis($uid)
+    {
+        if(Cache::store('redis')->has('user' . $uid)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /*
      * 注册登录查询 使用
      * */
@@ -31,9 +44,13 @@ class User extends Model
      * */
     public function getUserInfo($uid)
     {
-        return $this->where('uid', '=', $uid)
-            ->field(true)
-            ->find();
+        if(Cache::store('redis')->has('user' . $uid)){
+            return Cache::store('redis')->get('user'. $uid);
+        }else{
+            return $this->where('uid', '=', $uid)
+                ->field(true)
+                ->find();
+        }
     }
     /*
      *个人信息
