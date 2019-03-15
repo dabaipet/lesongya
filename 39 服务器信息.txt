@@ -1,0 +1,31 @@
+养老呀
+FTP账号资料
+用户：www_yanglaoya_com
+密码：T3XRAeWnpnW5wCBP
+数据库账号资料
+数据库名：www_yanglaoya_co
+用户：www_yanglaoya_co
+密码：ZTPmpcEBMKaNEjY8
+
+
+TP账号资料
+
+用户：ask_huabanjx_com
+
+密码：hcB8WHf4wD5tCcSC
+
+数据库账号资料
+
+数据库名：ask_huabanjx_com
+
+用户：ask_huabanjx_com
+
+密码：WisPiNNf6ecM8Tms
+
++腾讯云
+Bt-Panel: http://140.143.193.104:8888/510552a2
+username: 8jbbrenk
+password: 6c2db245
+Warning:
+If you cannot access the panel, 
+release the following port (8888|888|80|443|20|21) in the security group
