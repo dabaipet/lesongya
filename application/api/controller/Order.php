@@ -51,6 +51,9 @@ class Order extends Apibase
      * @param   address 详细地址（明了即可）
      * @param   addname 楼宇/小区名称
      * */
+<<<<<<< HEAD
+
+=======
     public function preOrder(){
         $phone = $this->request->param('phone');
         $addid = $this->request->param('addid');
@@ -70,4 +73,5 @@ class Order extends Apibase
     public function payOrder(){
 
     }
+>>>>>>> 93a35c4fa7e9fdfc5b14ac0e331ed2f2e7573f7e
 }
